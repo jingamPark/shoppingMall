@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>비밀번호 찾기</title>
+</head>
+<body>
+
+<div layout:fragment="content" >
+
+
+
+
+    <div class="container">
+
+        <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                        <div class="d-flex justify-content-center py-4">
+                            <a href="/main/" class="logo d-flex align-items-center w-auto">
+                                <span class="d-none d-lg-block">프로젝트 명</span>
+                            </a>
+                        </div><!-- End Logo -->
+
+                        <div class="card mb-2">
+
+                            <div class="card-body">
+
+                                <div class="pt-4 pb-2">
+                                    <h5 class="card-title text-center pb-0 fs-4">비밀번호 찾기 </h5>
+                                    <p>찾으실 비밀번호의 아이디와 이메일을 작성해주세요</p>
+                                </div>
+
+                                <form action="/users/passcheck" role="form" method="post" >
+
+                                    <div class="col-16">
+                                        <th:block th:if="${password == null}">
+                                            <label for="loginId" class="form-label" >아이디 입력 창</label>
+                                            <input type="text" name="loginId" class="form-control"  id="loginId" placeholder="아이디를 입력해 주세요" required>
+                                        </th:block>
+                                    </div>
+
+
+                                    <div class="col-16">
+                                        <th:block th:if="${password == null}">
+                                            <label for="email" class="form-label" >이메일 입력 창</label>
+                                            <input type="email" name="email" class="form-control"  id="email" placeholder="가입된 아이디의 이메일을 작성해 주세요" required>
+                                        </th:block>
+                                    </div>
+
+                                    <th:block th:if="${password != null}">
+                                        <h2>찾은 비밀번호 와 아이디</h2>
+                                        <h1>비밀번호 : [[${password}]]</h1>
+
+
+
+                                    </th:block>
+
+
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100" type="submit">비밀번호 찾기</button>
+                                    </div>
+
+
+                                    <div class="col-12">
+                                        <p class="small mb-0">아이디가 기억나지 않으신가요?<br><a href="/users/idchek">아이디 찾기</a></p>
+                                        <p class="small mb-0">로그인 하로가기<br><a href="/users/login">로그인</a></p>
+                                    </div>
+
+
+
+                                </form>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+</div>
+</body>
+</html>

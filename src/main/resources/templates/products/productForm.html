@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>상품등록</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <th:block layout:fragment="script">
+
+        <script th:inline="javascript">
+
+            $(document).ready(function () {
+                var errorMessage = [[${errorMessage}]];
+
+                if (errorMessage != null) {
+                    alert(errorMessage);
+                }
+                bindDomEvent();
+            });
+
+            function bindDomEvent() {
+                $(".productImgFileInput").on("click", function () {
+                    console.log($(this).val());
+                    if ($(this).val() == "" && $(this).siblings(".form-control-label").text() == "상품이미지") {
+                        $(this).siblings(".form-control-label").html("상품이미지");
+                    }
+                });
+
+                $(".productImgFileInput").on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    console.log(fileName);
+
+                    var fileExt = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+
+                        if (fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif" && fileExt != "png" && fileExt != "bmp") {
+                            if (fileExt == null || fileExt == "") {
+                                $(this).siblings(".form-control-label").html("이미지가 비어 있습니다.");
+                                return;
+                            }
+                            alert("이미지 파일만 등록이 가능합니다.");
+                            return;
+                        }
+
+                    $(this).siblings(".productImgFileLabel").html(fileName);
+                });
+            }
+        </script>
+    </th:block>
+
+    <th:block layout:fragment="css">
+        <style>
+            .fieldError{
+                color: #bd2130;
+            }
+
+        </style>
+
+    </th:block>
+
+
+</head>
+<body>
+
+    <div layout:fragment="content" >
+
+                <div class="pagetitle">
+                    <h1>상품 등록</h1>
+                </div><!-- End Page Title -->
+
+                <section class="section" >
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">상품등록 양식 </h6>
+
+                                    <!-- Form Elements -->
+                                    <form method="post" enctype="multipart/form-data" th:object="${productFormDTO}" >
+
+                                        <input type="hidden" th:field="*{id}">
+
+                                        <div class="row mb-3" >
+                                            <label class="col-sm-2 col-form-label">판매 상태</label>
+                                            <div class="col-sm-10" >
+                                                <select class="form-select" aria-label="Default select example" th:field="*{prodSellStatus}" >
+                                                    <option value="SELL" selected>판매중</option>
+                                                    <option value="SOLD_OUT">품절</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mb-3">
+                                            <label for="inputName" class="col-sm-2 col-form-label" id="prodName">상품명</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" id="inputName" class="form-control" th:field="*{prodName}" placeholder="상품명을 입력해 주세요">
+                                            </div>
+                                        </div>
+                                        <p th:if="${#fields.hasErrors('prodName')}" th:errors="*{prodName}" class="fieldError" >
+                                            양식에 맞게 작성해 주십시오.
+                                        </p>
+
+
+                                        <div class="row mb-3">
+                                            <label for="inputPrice" class="col-sm-2 col-form-label">가격</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" id="inputPrice" min="0" class="form-control" th:field="*{price}" placeholder="가격은 최소 0원 이상입니다.">
+                                            </div>
+                                        </div>
+                                        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="fieldError" >
+                                            양식에 맞게 작성해 주십시오.
+                                        </p>
+
+                                        <div class="row mb-3">
+                                            <label for="inputStock" class="col-sm-2 col-form-label">재고</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" min="0" id="inputStock" class="form-control" th:field="*{stockNumber}" placeholder="재고를 입력해 주세요">
+                                            </div>
+                                        </div>
+                                        <p th:if="${#fields.hasErrors('stockNumber')}" th:errors="*{stockNumber}" class="fieldError" >
+                                            양식에 맞게 작성해 주십시오.
+                                        </p>
+
+                                        <br>
+                                        <p>상품 설명</p>
+                                        <div class="form-floating mb-3">
+                                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" th:field="*{prodDetail}"></textarea>
+                                            <label for="floatingTextarea">상품 상세내역</label>
+                                        </div>
+                                        <p th:if="${#fields.hasErrors('prodDetail')}" th:errors="*{prodDetail}" class="fieldError" >
+                                            양식에 맞게 작성해 주십시오.
+                                        </p>
+
+                                        <!--파일 업로드-->
+                                        <div th:if =  "${#lists.isEmpty(productFormDTO.productImgDTOList)}">
+                                            <div class="input-group mb-3" th:each="num: ${#numbers.sequence(1,5)}">
+                                                <input type="file" class="form-control custom-file-input " name="productImgFile">
+                                                <label class="input-group-text custom-file-label productImgFileLabel" th:text="상품이미지 + ${num}">Upload</label>
+                                            </div>
+                                        </div>
+
+
+                                        <div th:if =  "${not #lists.isEmpty(productFormDTO.productImgDTOList)}">
+                                            <div class="input-group  mb-3" th:each="productImgDTO, status: ${productFormDTO.productImgDTOList}">
+
+                                                <input type="file"  class="form-control form-control-file productImgFileInput" th:id="${status.index+1}" name="productImgFile" >
+
+                                                <input type="text" class="form-control"  name="productImgIds" th:value="${productImgDTO.id}">
+
+
+                                                <label th:for="${status.index+1}" class="input-group-text form-control-label" th:text="${not #strings.isEmpty(productFormDTO.oriImgName)} ? ${productFormDTO.oriImgName} : '상품이미지'" >Upload</label>
+                                            </div>
+                                        </div>
+
+                                        <div th:if="${#strings.isEmpty(productFormDTO.id)}" style="text-align: center">
+                                            <button th:formaction="@{/admin/products/new}" type="submit" class="btn btn-primary">
+                                                상품 등록
+                                            </button>
+                                        </div>
+
+                                        <div th:unless="${#strings.isEmpty(productFormDTO.id)}" style="text-align: center">
+                                            <button th:formaction="@{'/admin/products/' + ${productFormDTO.id} }" type="submit" class="btn btn-primary">
+                                                수정
+                                            </button>
+                                        </div>
+
+
+
+
+                                    </form><!-- End General Form Elements -->
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </section>
+
+
+        </div>
+
+
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 창 입니다.</title>
+
+
+    <th:block layout:fragment="css">
+        <style>
+            .error{
+                color: #bd2130;
+            }
+
+        </style>
+
+    </th:block>
+
+
+
+</head>
+<body>
+
+    <div layout:fragment="content" >
+        <div class="container">
+
+            <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
+
+                            <div class="d-flex justify-content-center py-4">
+                                <a href="/main/" class="logo d-flex align-items-center w-auto">
+                                    <span class="d-none d-lg-block">프로젝트 명</span>
+                                </a>
+                            </div><!-- End Logo -->
+
+                            <div class="card mb-3">
+
+                                <div class="card-body">
+
+                                    <div class="pt-4 pb-2">
+                                        <h5 class="card-title text-center pb-0 fs-4">로그인 정보를 입력해주세요</h5>
+                                    </div>
+
+                                    <form method="post" action="/users/login" class="row g-3 needs-validation" >
+
+                                        <div class="col-12">
+                                            <label for="loginId" class="form-label">User ID</label>
+                                            <input type="text" name="loginId" class="form-control" id="loginId" placeholder="아이디를 입력해 주세요">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="password" class="form-label">Password</label>
+                                            <input type="text" name="password" class="form-control" id="password" placeholder="비밀번호를 입력해 주세요">
+                                        </div>
+                                        <p th:if ="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
+
+
+
+
+                                        <div class="col-12">
+                                            <button class="btn btn-primary w-100" type="submit">Login</button>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <p class="small mb-0">아이디가 기억나지 않으신가요??<br><a href="/users/idchek">id 찾기</a></p>
+                                        </div>
+<!--                                        <input type="hidden" th:name="${_csrf.parameterName}"-->
+<!--                                               th:value="${_csrf.token}">-->
+
+                                    </form>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+
+</body>
+</html>
