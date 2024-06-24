@@ -5,9 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>상품등록</title>
-
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
     <th:block layout:fragment="script">
 
@@ -23,14 +21,14 @@
             });
 
             function bindDomEvent() {
-                $(".productImgFileInput").on("click", function () {
+                $(".form-control-label").on("click", function () {
                     console.log($(this).val());
                     if ($(this).val() == "" && $(this).siblings(".form-control-label").text() == "상품이미지") {
                         $(this).siblings(".form-control-label").html("상품이미지");
                     }
                 });
 
-                $(".productImgFileInput").on("change", function () {
+                $(".form-control-label").on("change", function () {
                     var fileName = $(this).val().split("\\").pop();
                     console.log(fileName);
 
@@ -45,7 +43,7 @@
                             return;
                         }
 
-                    $(this).siblings(".productImgFileLabel").html(fileName);
+                    $(this).siblings(".form-control-label").html(fileName);
                 });
             }
         </script>
@@ -148,12 +146,11 @@
                                         <div th:if =  "${not #lists.isEmpty(productFormDTO.productImgDTOList)}">
                                             <div class="input-group  mb-3" th:each="productImgDTO, status: ${productFormDTO.productImgDTOList}">
 
-                                                <input type="file"  class="form-control form-control-file productImgFileInput" th:id="${status.index+1}" name="productImgFile" >
+                                                <input type="file"  class="form-control form-control-file " th:id="${status.index+1}" name="productImgFile" >
 
                                                 <input type="text" class="form-control"  name="productImgIds" th:value="${productImgDTO.id}">
 
-
-                                                <label th:for="${status.index+1}" class="input-group-text form-control-label" th:text="${not #strings.isEmpty(productFormDTO.oriImgName)} ? ${productFormDTO.oriImgName} : '상품이미지'" >Upload</label>
+                                                <label th:for="${status.index+1}" class="input-group-text form-control-label" th:text="${not #strings.isEmpty(productImgDTO.oriImgName)} ? ${productImgDTO.oriImgName} : '상품이미지'" >Upload</label>
                                             </div>
                                         </div>
 

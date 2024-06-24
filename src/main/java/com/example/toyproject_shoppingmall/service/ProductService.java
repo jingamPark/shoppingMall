@@ -2,6 +2,7 @@ package com.example.toyproject_shoppingmall.service;
 
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
 import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
+import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
 import com.example.toyproject_shoppingmall.entity.Product;
 import com.example.toyproject_shoppingmall.entity.ProductImg;
 import com.example.toyproject_shoppingmall.repository.ProductImgRepository;
@@ -9,12 +10,15 @@ import com.example.toyproject_shoppingmall.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -27,20 +31,20 @@ public class ProductService {
 
 
     public Long saveProduct(ProductFormDTO productFormDTO,
-                            List<MultipartFile> productImgFileList) throws Exception{
+                            List<MultipartFile> productImgFileList) throws Exception {
         //상품 등록
         Product product = productFormDTO.createProduct();
         productRepository.save(product);
 
         for (int i = 0; i < productImgFileList.size(); i++) {
-            ProductImg productImg =new ProductImg();
+            ProductImg productImg = new ProductImg();
             productImg.setProduct(product);
             if (i == 0) {
                 productImg.setRepImgYn("Y");
             } else {
                 productImg.setRepImgYn("N");
             }
-                productImgService.saveProductImg(productImg,productImgFileList.get(i));
+            productImgService.saveProductImg(productImg, productImgFileList.get(i));
 
 
         }
@@ -62,6 +66,8 @@ public class ProductService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(EntityNotFoundException::new);
         ProductFormDTO productFormDTO = ProductFormDTO.of(product);
+        productFormDTO.setProductImgDTOList(productImgDTOList);
+
 
         return productFormDTO;
 
@@ -70,8 +76,10 @@ public class ProductService {
     public Long updateProduct(ProductFormDTO productFormDTO,
                               List<MultipartFile> productImgFileList) throws Exception {
 
-        Product product =productRepository.findById(productFormDTO.getId())
+        Product product = productRepository.findById(productFormDTO.getId())
                 .orElseThrow(EntityNotFoundException::new);
+        log.info("상품정보는 가져옴??????" + product);
+
         product.updateProduct(productFormDTO);
 
         List<Long> prodImgIds = productFormDTO.getProductImgIds();
@@ -82,6 +90,11 @@ public class ProductService {
         }
 
         return product.getId();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Product> getAdminProductPage(ProductSearchDTO productSearchDTO, Pageable pageable) {
+        return productRepository.getAdminProductPage(productSearchDTO, pageable);
     }
 
 

@@ -8,12 +8,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
+@ToString
 public class ProductFormDTO {
 
     private static ModelMapper modelMapper =new ModelMapper();
