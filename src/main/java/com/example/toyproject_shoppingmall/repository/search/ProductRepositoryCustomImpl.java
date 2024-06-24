@@ -1,9 +1,12 @@
 package com.example.toyproject_shoppingmall.repository.search;
 
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
+import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
 import com.example.toyproject_shoppingmall.entity.Product;
+import com.example.toyproject_shoppingmall.entity.ProductImg;
 import com.example.toyproject_shoppingmall.entity.QProduct;
+import com.example.toyproject_shoppingmall.entity.QProductImg;
 import com.example.toyproject_shoppingmall.repository.ProductRepository;
 import com.querydsl.core.QueryFactory;
 import com.querydsl.core.QueryResults;
@@ -30,7 +33,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
     private BooleanExpression searchSellStatusEq(ProdSellStatus searchSellStatus) {
         return searchSellStatus ==
                 null ? null: QProduct.product.prodSellStatus.eq(searchSellStatus);
-    }
+    } //오케이
 
     private BooleanExpression regDTsAfter(String searchDateType) {
         LocalDateTime dateTime = LocalDateTime.now();
@@ -47,13 +50,14 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
             dateTime = dateTime.minusMonths(6);
         }
         return QProduct.product.regTime.after(dateTime);
-    }
+    }//오케이
 
     private BooleanExpression searchByLike(String searchBy, String searchQuery) {
         if (StringUtils.equals("prodName", searchBy)) {
-            return QProduct.product.prodName.like("%" + searchQuery + "%");
+            return QProduct.product.prodName.like("%"+searchQuery+"%");
+
         } else if (StringUtils.equals("createBy", searchBy)) {
-            return QProduct.product.createBy.like("%"+ searchQuery + "%");
+            return QProduct.product.createBy.like("%"+searchQuery+"%");
         }
         return null;
     }
@@ -65,7 +69,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
                 .where(regDTsAfter(productSearchDTO.getSearchDateType()),
                         searchSellStatusEq(productSearchDTO.getSearchSellStatus()),
                         searchByLike(productSearchDTO.getSearchBy(),
-                                productSearchDTO.getSearchQuery() ) )
+                                productSearchDTO.getSearchQuery()))
                 .orderBy(QProduct.product.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

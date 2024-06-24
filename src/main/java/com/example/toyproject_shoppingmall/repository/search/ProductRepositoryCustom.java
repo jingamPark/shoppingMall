@@ -1,5 +1,6 @@
 package com.example.toyproject_shoppingmall.repository.search;
 
+import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
 import com.example.toyproject_shoppingmall.entity.Product;
 import org.springframework.data.domain.Page;
