@@ -91,7 +91,7 @@ public class AdminProductController {
     public String productUpdate(@Valid ProductFormDTO productFormDTO, BindingResult bindingResult,
                                 @RequestParam("productImgFile") List<MultipartFile> productImgFileList,Model model){
 
-        log.info("이미지????"+productImgFileList);
+        log.info("이미지??"+productImgFileList);
 
         if (bindingResult.hasErrors()) {
 
