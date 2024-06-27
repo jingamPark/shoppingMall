@@ -179,15 +179,15 @@
 
                     <li class="nav-item dropdown pe-3">
 
-                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" sec:authorize="isAuthenticated()" data-bs-toggle="dropdown">
                             <img src="" alt="Profile" class="rounded-circle">
-                            <span class="d-none d-md-block dropdown-toggle ps-2" th:text="${#authentication.getName()}+' '+ 님 +' '+환영합니다"></span>
+                            <span class="d-none d-md-block dropdown-toggle ps-2"  th:text="${#authentication.getName()}+' '+ 님 +' '+환영합니다"></span>
                         </a><!-- End Profile Iamge Icon -->
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                             <li class="dropdown-header">
-                                <h6>Kevin Anderson</h6>
-                                <span>Web Designer</span>
+                                <h6></h6>
+                                <span></span>
                             </li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -224,9 +224,9 @@
                             </li>
 
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                <a class="dropdown-item d-flex align-items-center" href="users/logout">
                                     <i class="bi bi-box-arrow-right"></i>
-                                    <span>Sign Out</span>
+                                    <span>LogOut</span>
                                 </a>
                             </li>
 
@@ -251,18 +251,18 @@
                 </li><!-- End Dashboard Nav -->
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-menu-button-wide"></i><span></span><i class="bi bi-chevron-down ms-auto"></i>
+                    <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#" sec:authorize="hasAnyAuthority('ROLE_ADMIN')">
+                        <i class="bi bi-menu-button-wide"></i><span>관리자 메뉴</span><i class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
                         <li>
-                            <a href="">
-                                <i class="bi bi-circle"></i><span>Alerts</span>
+                            <a href="/admin/products/new">
+                                <i class="bi bi-circle"></i><span>제품 등록</span>
                             </a>
                         </li>
                         <li>
-                            <a href="">
-                                <i class="bi bi-circle"></i><span>Accordion</span>
+                            <a href="/admin/products/prodMng">
+                                <i class="bi bi-circle"></i><span>관리자 제품 목록</span>
                             </a>
                         </li>
                         <li>
@@ -415,6 +415,13 @@
                     </a>
                 </li><!-- End Login Page Nav -->
 
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link collapsed" href="/users/signup">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>회원가입</span>
+                    </a>
+                </li><!-- End Login Page Nav -->
+
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link collapsed" href="/users/logout">
                         <i class="bi bi-dash-circle"></i>
@@ -422,12 +429,7 @@
                     </a>
                 </li><!-- End Error 404 Page Nav -->
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="">
-                        <i class="bi bi-file-earmark"></i>
-                        <span>Blank</span>
-                    </a>
-                </li><!-- End Blank Page Nav -->
+
 
             </ul>
 

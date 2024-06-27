@@ -33,9 +33,11 @@ public class UserFormDTO {
     private String email;      //이메일
 
     @NotBlank(message = "전화번호를 입력해주세요")
+    @Size(min = 11, max = 11, message = "전화번호는 ' - ' 없이 11글자 입니다.")
     private String tel;        //전화번호
 
     @NotBlank(message = "주소를 입력해주세요")
+    @Size(min = 2, max = 8, message = "이름은 2글자 이상 8글자 이하 입니다.")
     private String address;    //주소
 
 

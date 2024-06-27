@@ -7,14 +7,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "cart_item")
+@Table(name = "cart_product")
 @Getter
 @Setter
 @ToString
-public class CartItem extends BaseEntity {
+public class CartProduct extends BaseEntity {
 
     @Id
-    @Column(name = "cart_item_id")
+    @Column(name = "cart_product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;        //코드
 

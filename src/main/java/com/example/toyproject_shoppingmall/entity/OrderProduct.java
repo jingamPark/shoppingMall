@@ -7,15 +7,15 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity // jpa에서 관리를 할수 있습니다. 엔티티매니저
-@Table(name = "order_item") //jpa를 이용할 댸 자동으로 데이터베이스 설정과 데이터베이스 내 테이블을 같이 확인하기 댸문에 에러 나올 수 있음
+@Table(name = "order_product") //jpa를 이용할 댸 자동으로 데이터베이스 설정과 데이터베이스 내 테이블을 같이 확인하기 댸문에 에러 나올 수 있음
 @Getter
 @Setter
 @ToString
-public class OrderItem extends BaseEntity {
+public class OrderProduct extends BaseEntity {
 
 
     @Id
-    @Column(name = "order_item_id")
+    @Column(name = "order_product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;        //코드
 
@@ -32,9 +32,20 @@ public class OrderItem extends BaseEntity {
     private int count;
 
 
+    public static OrderProduct createOrderProduct(Product product, int count) {
+        OrderProduct orderProduct =new OrderProduct();
+        orderProduct.setProduct(product);
+        orderProduct.setCount(count);
+        orderProduct.setOrderPrice(product.getPrice());
+
+        product.removeStock(count); // 주문 수량만크 재고 줄어들음
+        return orderProduct;
+    }
 
 
-
+    public int getTotalPrice() {
+        return orderPrice *count;
+    }
 
 
 

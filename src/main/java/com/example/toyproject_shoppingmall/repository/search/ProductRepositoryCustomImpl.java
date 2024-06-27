@@ -1,8 +1,10 @@
 package com.example.toyproject_shoppingmall.repository.search;
 
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
+import com.example.toyproject_shoppingmall.dto.MainProductDTO;
 import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
+import com.example.toyproject_shoppingmall.dto.QMainProductDTO;
 import com.example.toyproject_shoppingmall.entity.Product;
 import com.example.toyproject_shoppingmall.entity.ProductImg;
 import com.example.toyproject_shoppingmall.entity.QProduct;
@@ -82,6 +84,39 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
 
     }
 
+    private BooleanExpression prodNmLike(String searchQuery) {
+        return StringUtils.isEmpty(searchQuery) ? null : QProduct.product.prodName.like("%" + searchQuery + "%");
+    }
 
+    @Override
+    public Page<MainProductDTO> getMainProductPage(ProductSearchDTO productSearchDTO, Pageable pageable) {
+        QProduct product = QProduct.product;
+        QProductImg productImg = QProductImg.productImg;
+
+        QueryResults<MainProductDTO> results = jpaQueryFactory
+                .select(
+                        new QMainProductDTO(
+                                product.id,
+                                product.prodName,
+                                product.prodDetail,
+                                productImg.imgUrl,
+                                product.price
+                        )
+                )
+                .from(productImg)
+                .join(productImg.product, product)
+                .where(productImg.repImgYn.eq("Y"))
+                .where(prodNmLike(productSearchDTO.getSearchQuery()))
+                .orderBy(product.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<MainProductDTO> content = results.getResults();
+        long total =results.getTotal();
+
+        return new PageImpl<>(content,pageable,total);
+    }
+    /*fetchResults 지원중단으로 인해 대체 방법 강구하자*/
 
 }

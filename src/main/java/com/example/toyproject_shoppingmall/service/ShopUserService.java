@@ -37,6 +37,7 @@ public class ShopUserService implements UserDetailsService {
         log.info("중복회원 검사 전");
         //중복회원 검사
         validateDuplicateUser(shopUser);
+        validateDuplicateEmail(shopUser);
         log.info("중복 회원 검사 후");
 
         return shopUserRepository.save(shopUser);
@@ -47,6 +48,7 @@ public class ShopUserService implements UserDetailsService {
 
        ShopUser findUser = shopUserRepository.findByLoginId(shopUser.getLoginId());
 
+
         if (findUser != null) {
             log.info("이미 가입된 회원 아이디 입니다.");
             throw new IllegalStateException("이미 가입된 회원 아이디 입니다.");  // 객체 상태가 메서드 호출을 처리하기에 적절치 않을 때
@@ -54,6 +56,20 @@ public class ShopUserService implements UserDetailsService {
         }
 
     }
+
+    public void validateDuplicateEmail(ShopUser shopUser) {
+
+        ShopUser findUser = shopUserRepository.findByEmail(shopUser.getEmail());
+
+
+        if (findUser != null) {
+            log.info("이미 가입된 이메일 입니다.");
+            throw new IllegalStateException("이미 가입된 회원 이메일 입니다.");  // 객체 상태가 메서드 호출을 처리하기에 적절치 않을 때
+
+        }
+
+    }
+
 
     //이름과 이메일로 아이디 찾기
 

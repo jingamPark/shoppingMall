@@ -53,13 +53,13 @@
             <div class="col-12">
                 <div class="card top-selling overflow-auto">
                     <div class="card-body pb-0">
-                        <h5 class="card-title">상품관리 <span>| 제품목록</span></h5>
+                        <h5 class="card-title">제품 관리 <span>| 제품 목록</span></h5>
 
                         <table class="table table-borderless">
                             <thead>
                             <tr>
                                 <th scope="col">제품 아이디</th>
-                                <th scope="col">상품명</th>
+                                <th scope="col">제품명</th>
                                 <th scope="col">판매 상태</th>
                                 <th scope="col">등록자</th>
                                 <th scope="col">등록일</th>
@@ -68,7 +68,11 @@
                             <tbody>
                             <tr th:each="product, satatus: ${products.getContent()}">
                                 <th th:text="${product.id}">
-                                <th th:text="${product.prodName}">
+
+                                <th>
+                                    <a th:href="'/admin/products/'+${product.id}" th:text="${product.prodName}"></a>
+                                </th>
+
                                 <th th:text="${product.prodSellStatus.name == 'SELL'} ? '판매중' : '품절'">
                                 <th th:text="${product.createBy}">
                                 <th th:text="${product.regTime}">
@@ -76,7 +80,7 @@
 
                             </tbody>
                         </table>
-
+                        <!--페이징 처리 시작-->
                         <div class="row justify-content-center" th:with="start=${(products.number/maxPage) * maxPage + 1 } , end=${(products.totalPages==0 ) ? 1 :  (start + (maxPage -1) < products.totalPages ? start + (maxPage - 1): products.totalPages) }">
                             <div class="col-4">
                                 <ul class="pagination">
@@ -97,7 +101,7 @@
                                 </ul>
                             </div>
                         </div>
-
+                        <!--페이징 처리 끝-->
                         <div class="input-group  align-self-center mb-3" th:object="${productSearchDTO}">
                             <!--기간검색-->
                             <select th:field="*{searchDateType}"
@@ -118,7 +122,7 @@
                             <!--상품명 또는 등록자 검색-->
                             <select th:field="*{searchBy}"
                                     class="form-select form-select-lg mb-3" aria-label="Large select example">
-                                <option value="prodName">상품명</option>
+                                <option value="prodName">제품명</option>
                                 <option value="createBy">등록자</option>
                             </select>
                             <!--검색어 입력-->

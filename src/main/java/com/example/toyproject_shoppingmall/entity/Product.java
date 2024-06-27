@@ -3,6 +3,7 @@ package com.example.toyproject_shoppingmall.entity;
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
 import com.example.toyproject_shoppingmall.entity.base.BaseEntity;
+import com.example.toyproject_shoppingmall.exception.OutOfStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,6 +53,29 @@ public class Product extends BaseEntity {
         this.prodDetail = productFormDTO.getProdDetail();
         this.prodSellStatus = productFormDTO.getProdSellStatus();
     }
+
+    //상품 재고 감소
+    public void removeStock(int stockNumber) {
+        int restStock =this.stockNumber - stockNumber;
+
+
+
+        if (restStock < 0) {
+            throw new OutOfStockException("상품의 재고가 부족 합니다. " +
+                    "(현재 재고 수량 : " + this.stockNumber+ ")");
+
+
+        }
+
+
+
+        this.stockNumber = restStock;
+    }
+
+
+
+
+
 
 
 }

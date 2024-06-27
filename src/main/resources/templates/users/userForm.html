@@ -80,7 +80,7 @@
 
                                             <div class="col-12">
                                                 <label for="password" class="form-label">비밀번호</label>
-                                                <input type="text" name="password" class="form-control" th:field="*{password}" id="password" >
+                                                <input type="text" name="password" class="form-control" th:field="*{password}" id="password" placeholder="비밀번호를 입력해 주세요" >
                                                 <p th:if="${#fields.hasErrors('password')}"    th:errors="*{password}" class="fieldError" >
 
                                                 </p>
@@ -93,7 +93,7 @@
 
                                             <div class="col-12">
                                                 <label for="name" class="form-label">이름</label>
-                                                <input type="text" name="name" class="form-control" th:field="*{name}" id="name" >
+                                                <input type="text" name="name" class="form-control" th:field="*{name}" id="name" placeholder="이름을 입력해 주세요" >
                                                 <p th:if="${#fields.hasErrors('name')}"    th:errors="*{name}" class="fieldError" >
 
                                                 </p>
@@ -102,7 +102,7 @@
 
                                             <div class="col-12">
                                                 <label for="email" class="form-label">이메일</label>
-                                                <input type="email" name="email" class="form-control"  th:field="*{email}" id="email" >
+                                                <input type="email" name="email" class="form-control"  th:field="*{email}" id="email" placeholder="이메일을 입력해 주세요" >
                                                 <p th:if="${#fields.hasErrors('email')}"    th:errors="*{email}" class="fieldError" >
 
                                                 </p>
@@ -110,7 +110,7 @@
 
                                             <div class="col-12">
                                                 <label for="address" class="form-label">주소</label>
-                                                <input type="text" name="address" class="form-control" th:field="*{address}" id="address" >
+                                                <input type="text" name="address" class="form-control" th:field="*{address}" id="address" placeholder="주소를 입력해 주세요" >
                                                 <p th:if="${#fields.hasErrors('address')}"    th:errors="*{address}" class="fieldError" >
 
                                                 </p>
@@ -118,7 +118,7 @@
 
                                             <div class="col-12">
                                                 <label for="tel" class="form-label">전화번호</label>
-                                                <input type="text" name="tel" class="form-control" th:field="*{tel}" id="tel" >
+                                                <input type="text" name="tel" class="form-control" th:field="*{tel}" id="tel" placeholder="전화번호를 입력해 주세요" >
                                                 <p th:if="${#fields.hasErrors('tel')}"    th:errors="*{tel}" class="fieldError" >
 
                                                 </p>

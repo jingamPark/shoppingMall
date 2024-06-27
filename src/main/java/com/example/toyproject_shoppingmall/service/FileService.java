@@ -19,6 +19,7 @@ public class FileService {
         String savedFileName =uuid.toString() +extension;
         String fileUploadFullUrl = uploadPath + "/" + savedFileName;
         FileOutputStream fos = new FileOutputStream(fileUploadFullUrl);
+        fos.write(fileData);
         fos.close();
         return savedFileName;
 

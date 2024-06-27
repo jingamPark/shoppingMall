@@ -1,5 +1,6 @@
 package com.example.toyproject_shoppingmall.service;
 
+import com.example.toyproject_shoppingmall.dto.MainProductDTO;
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
 import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
@@ -97,6 +98,9 @@ public class ProductService {
         return productRepository.getAdminProductPage(productSearchDTO, pageable);
     }
 
-
+    @Transactional(readOnly = true)
+    public Page<MainProductDTO> getMainProductPage(ProductSearchDTO productSearchDTO, Pageable pageable) {
+        return productRepository.getMainProductPage(productSearchDTO,pageable);
+    }
 
 }//class
