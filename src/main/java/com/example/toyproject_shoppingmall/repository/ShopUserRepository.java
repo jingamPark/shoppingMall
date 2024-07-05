@@ -11,9 +11,8 @@ public interface ShopUserRepository extends JpaRepository<ShopUser,Long> {
     ShopUser findByEmail(String email);
     ShopUser findByEmailAndName(String email, String name);
 
-    ShopUser findByLoginIdAndEmail(String password, String email);
 
-
+    ShopUser findByLoginIdAndEmail(String loginId, String email);
 
 
 

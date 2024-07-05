@@ -29,13 +29,16 @@
             }
 
 
+
+
+
+
             function order() {
                 var count = $("#count").val()
                 var productId = [[${productId}]]
-                console.log(count)
-                console.log(productId)
 
-                var url = "/orders/add";
+
+                var url = "/order";
                 var param = {
                     count : count,
                     productId : productId
@@ -53,34 +56,53 @@
                         alert(productId + "번 상품의 주문이 완료되었습니다.")
                     },
                     error: function (xhr,error) {
-                        console.log("에러임 ㅋ", xhr.responseText)
+                        console.log("에러임 ", xhr.responseText)
                         alert(xhr.responseText)
                     }
 
 
                 })
 
-                // $.ajax({
-                //     url: "/orders/add",
-                //     type: "POST",
-                //     contentType: "application/json; charset =utf-8",
-                //     data: JSON.stringify({
-                //         count: 10,
-                //         productId: 1 // 예시로 제품 ID를 1로 설정
-                //     }),
-                //     success: function(response) {
-                //         console.log("데이터는???", response);
-                //         alert("성공?")
-                //     },
-                //     error: function(xhr, status, error) {
-                //         console.log("Error placing order", xhr.responseText);
-                //         alert("에러 ㅗ")
-                //     }
-                // });
+
+            }
+
+
+            function addCart() {
+
+                var count = $("#count").val()
+                var productId = [[${productId}]]
+                console.log(count)
+                console.log(productId)
+                var url = "/cart";
+                var param = {
+                    count : count,
+                    productId : productId
+                }
+
+
+                $.ajax({
+                    url: url,
+                    type : "POST",
+                    contentType : "application/json; charset =utf-8",
+                    data : JSON.stringify(param),
+                    dataType : "json",
+                    success: function (response) {
+                        console.log(response)
+                        alert(productId + "번 상품을 장바구니에 담았습니다.")
+                    },
+                    error: function (xhr,error) {
+                        console.log("에러임 ", xhr.responseText)
+                        alert(xhr.responseText)
+                    }
+
+
+                })
 
 
 
             }
+
+
 
         </script>
 
@@ -104,9 +126,9 @@
                 </div>
 
                 <div class="card-body">
+                    <div th:if="${product.stockNumber >0}"><span th:if="${product.prodSellStatus.name() =='SELL'}"  class="badge text-bg-success mb-3">판매중</span></div>
+                    <div th:if="${product.stockNumber <=0}"><span class="text-danger badge text-bg-success mb-3 tex">품절</span></div>
 
-                    <span th:if="${product.prodSellStatus.name() =='SELL'}"  class="badge text-bg-success mb-3">판매중</span>
-                    <span th:if="${product.prodSellStatus.name() =='SOLD_OUT'}"  class="badge text-bg-success mb-3">품절</span>
 
                     <div class="h4" th:text=" '제품명 : '+' &ensp;' + ${product.prodName}"></div>
                     <hr class="my-4">
@@ -128,20 +150,22 @@
                     </div>
                     <hr class="my-4">
 
-                    <div class="text-right">
-                        <h5>결제 금액</h5>
-                        <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
-                    </div>
+
                     <div th:if="${product.prodSellStatus.name() =='SELL'}">
-                        <button type="button" class="btn btn-light border border-primary btn-lg cart">장바구니</button>&ensp;
-                        <button type="button" class="btn btn-primary btn-lg order" onclick="order()">상품 주문</button>
-                        <hr>
-
+                        <div th:if="${product.stockNumber > 0}">
+                            <div class="text-right">
+                                <h5>결제 금액</h5>
+                                <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
+                            </div>
+                            <button type="button" class="btn btn-light border border-primary btn-lg cart" onclick="addCart()">장바구니</button>&ensp;
+                            <button type="button" class="btn btn-primary btn-lg order" onclick="order()">상품 주문</button>
+                            <hr>
+                        </div>
                     </div>
 
-                    <div th:if="${product.prodSellStatus.name() =='SOLD_OUT'}">
+                    <div th:if="${product.stockNumber <= 0}">
                         <h4 class="h4 text-danger text-left">상품이 품절 되었습니다.</h4>
-                        <span class="h4">다른 상품 살펴보기  >>><a href="/">메인페이지로</a></span>
+                        <span class="h4">다른 상품 살펴보기  >>><a href="/"> 메인페이지로</a></span>
                         <hr>
                     </div>
                     <br>

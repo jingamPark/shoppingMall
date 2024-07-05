@@ -25,4 +25,11 @@ public class Cart extends BaseEntity {
 
 
 
+    public static Cart createCart(ShopUser shopUser) {
+        Cart cart = new Cart();
+        cart.setShopUser(shopUser);
+        return cart;
+    }
+
+
 }

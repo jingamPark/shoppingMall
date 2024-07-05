@@ -3,6 +3,7 @@ package com.example.toyproject_shoppingmall.entity;
 
 import com.example.toyproject_shoppingmall.constant.Role;
 import com.example.toyproject_shoppingmall.dto.UserFormDTO;
+import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -68,7 +69,11 @@ public class ShopUser extends BaseEntity {
     }
 
 
+    public void updatePassword(UserPasswordDTO userPasswordDTO, PasswordEncoder passwordEncoder ) {
+        String password = passwordEncoder.encode(userPasswordDTO.getNewPassword());
+        this.password = password;
 
+    }
 
 
 

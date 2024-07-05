@@ -30,4 +30,6 @@ public class BaseTimeEntity {
     private LocalDateTime updateTime;
 
 
+
+
 }

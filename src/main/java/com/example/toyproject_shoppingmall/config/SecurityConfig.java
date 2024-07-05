@@ -33,8 +33,11 @@ public class SecurityConfig  {
 
                 .authorizeHttpRequests(
                         (authorizeHttpRequests) -> authorizeHttpRequests
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
 
+
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/orders/**").authenticated()
+                                .requestMatchers("/cart/**").authenticated()
                                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                                 .requestMatchers("/**").permitAll()
 
@@ -56,6 +59,7 @@ public class SecurityConfig  {
 
                 //현재 모든 경로에 대해서 csrf 미사용
 
+
                 .formLogin( formLogin -> formLogin.loginPage("/users/login")
                         .defaultSuccessUrl("/")
                         .usernameParameter("loginId")
@@ -70,9 +74,9 @@ public class SecurityConfig  {
                         .invalidateHttpSession(true))
 
                 // 로그인이 되지 않은 사용자 가 로그인을 요하는 페이지 접속시 (rest) 핸들링
-//                .exceptionHandling(
-//                        a -> a.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-//                )
+                .exceptionHandling(
+                        a -> a.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                )
 
         ;
 

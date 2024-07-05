@@ -111,7 +111,7 @@ public class AdminProductController {
             return "products/productForm";
 
         }
-        return "redirect:/";
+        return "redirect:/admin/products/prodMng";
     }
 
 

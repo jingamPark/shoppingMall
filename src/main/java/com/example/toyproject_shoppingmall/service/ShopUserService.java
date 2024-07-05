@@ -2,6 +2,7 @@ package com.example.toyproject_shoppingmall.service;
 
 
 import com.example.toyproject_shoppingmall.constant.Role;
+import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
 
 import com.example.toyproject_shoppingmall.repository.ShopUserRepository;
@@ -26,6 +27,17 @@ public class ShopUserService implements UserDetailsService {
     private final ShopUserRepository shopUserRepository;
 
 
+    //비밀번호 변경
+    public ShopUser changePassword(UserPasswordDTO userPasswordDTO,String loginId) {
+
+        ShopUser shopUser = shopUserRepository.findByLoginId(loginId);
+
+
+
+
+
+        return null;
+    }
 
 
 
@@ -81,7 +93,9 @@ public class ShopUserService implements UserDetailsService {
 
     //아이디와 이름으로 데이터베이스 검색하여 비밀번호 찾기
     public ShopUser findPassword(String loginId, String email) {
-        return  shopUserRepository.findByLoginIdAndEmail(loginId,email);
+
+
+        return shopUserRepository.findByLoginIdAndEmail(loginId,email);
     }
 
 

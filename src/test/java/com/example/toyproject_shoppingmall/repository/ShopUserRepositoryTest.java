@@ -88,7 +88,7 @@ class ShopUserRepositoryTest {
     }
 
     @Test
-    @DisplayName("비밀번호 찾기")
+    @DisplayName("비밀번호 변경")
     void findPassT(){
         ShopUser shopUser1= new ShopUser();
 
@@ -101,10 +101,6 @@ class ShopUserRepositoryTest {
         shopUser1.setAddress("부천시");
 
         shopUserRepository.save(shopUser1);
-
-
-        ShopUser user = shopUserRepository.findByLoginIdAndEmail(shopUser1.getLoginId(),shopUser1.getEmail());
-        log.info(user.getPassword());
 
     }
 

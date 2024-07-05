@@ -24,6 +24,11 @@ public class UserFormDTO {
     @Size(min = 8, max = 16, message = "비빌번호는 8글자 이상 16글자 이하 입니다.")
     private String password;   //비밀번호
 
+    @NotBlank(message = "비밀번호는 필수 입력입니다.")
+    @Size(min = 8, max = 16, message = "비빌번호는 8글자 이상 16글자 이하 입니다.")
+    private String password2;   //비밀번호
+
+
     @NotBlank(message = "이름은 필수 입력 입니다..")
     @Size(min = 2, max = 8, message = "이름은 2글자 이상 8글자 이하 입니다.")
     private String name;       //유저의 이름

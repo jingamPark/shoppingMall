@@ -7,7 +7,7 @@ public interface CartRepository extends JpaRepository<Cart,Long> {
 
 
 
-
+    Cart findByShopUserId(Long shopUserId);
 
 
 }

@@ -73,7 +73,10 @@ public class Product extends BaseEntity {
     }
 
 
-
+    //상푸 재고증가
+    public void addStock(int stockNumber) {
+        this.stockNumber += stockNumber;
+    }
 
 
 

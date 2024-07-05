@@ -59,10 +59,10 @@
 
                                         </div>
                                     </div>
-                                    <div ><!--제품 이미지 및 정보 시작 -->
+                                    <div class="col" ><!--제품 이미지 및 정보 시작 -->
                                         <th:block th:each="product, status : ${products.getContent()}">
-                                            <div class="col-md-4 margin">
-                                                <div class="card">
+                                            <div class="col-md-4 col-6" >
+                                                <div class="card col-8">
                                                     <a th:href="'/products/view/' + ${product.id}" class="text-dark">
                                                         <img th:src="${product.imgUrl}" class="card-img-top"
                                                         th:alt="${product.prodName}" height="400">

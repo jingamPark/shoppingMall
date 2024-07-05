@@ -62,7 +62,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
     implementation 'com.google.code.gson:gson:2.8.9'
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.2'
-
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}:jakarta"

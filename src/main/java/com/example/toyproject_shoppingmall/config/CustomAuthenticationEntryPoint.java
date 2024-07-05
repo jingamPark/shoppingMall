@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -21,7 +22,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         if ("XMLHttpRequest".equals(request.getHeader("x-request-with"))) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         } else {
-            response.sendRedirect("/members/login");
+            response.sendRedirect("/users/login");
         }
     }
 

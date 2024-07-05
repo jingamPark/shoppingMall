@@ -1,5 +1,6 @@
 package com.example.toyproject_shoppingmall.service;
 
+import com.example.toyproject_shoppingmall.constant.OrderStatus;
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
 import com.example.toyproject_shoppingmall.dto.OrderDTO;
 import com.example.toyproject_shoppingmall.entity.Order;
@@ -100,5 +101,29 @@ class OrderServiceTest {
         log.info("Actual total price: {}", order.getTotalPrice());
 
     }
+
+    @Test
+    @DisplayName("주문 취소 테스트")
+    public void cancelOrderTest() {
+
+        Product product = saveProduct();
+        ShopUser shopUser = saveUser();
+        OrderDTO orderDTO = new OrderDTO();
+
+        orderDTO.setCount(10);
+        orderDTO.setProductId(product.getId());
+        Long orderId= orderService.order(orderDTO, shopUser.getLoginId());
+
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+        orderService.cancelOrder(orderId);
+        assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
+        assertEquals(100, product.getStockNumber());
+
+        log.info(String.valueOf(order.getOrderStatus()));
+        log.info(String.valueOf(product.getStockNumber()));
+
+
+    }
+
 
 }

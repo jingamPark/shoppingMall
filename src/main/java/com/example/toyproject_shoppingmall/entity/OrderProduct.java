@@ -47,6 +47,10 @@ public class OrderProduct extends BaseEntity {
         return orderPrice *count;
     }
 
+    //주문 취소 (취소시 주문한 상품의 재고량 증가)
+    public void cancel() {
+        this.getProduct().addStock(count);
+    }
 
 
 }

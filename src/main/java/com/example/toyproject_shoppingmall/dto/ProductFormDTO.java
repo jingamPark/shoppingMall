@@ -11,7 +11,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.modelmapper.ModelMapper;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Getter @Setter
@@ -30,6 +32,8 @@ public class ProductFormDTO {
     private String prodDetail; // 제품 설명
     @NotNull(message = "재고는 필수 입력 값 입니다.")
     private int stockNumber; //재고수량
+
+
 
     private ProdSellStatus prodSellStatus;
 
