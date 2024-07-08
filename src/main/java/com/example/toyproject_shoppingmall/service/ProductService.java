@@ -4,6 +4,7 @@ import com.example.toyproject_shoppingmall.dto.MainProductDTO;
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
 import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
+import com.example.toyproject_shoppingmall.entity.Category;
 import com.example.toyproject_shoppingmall.entity.Product;
 import com.example.toyproject_shoppingmall.entity.ProductImg;
 import com.example.toyproject_shoppingmall.repository.ProductImgRepository;

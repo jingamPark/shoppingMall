@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,19 +26,25 @@ public class ShopUserService implements UserDetailsService {
 
 
     private final ShopUserRepository shopUserRepository;
+    private final PasswordEncoder passwordEncoder;
 
-
-    //비밀번호 변경
-    public ShopUser changePassword(UserPasswordDTO userPasswordDTO,String loginId) {
+    //비밀번호 초기화
+    public ShopUser resetPassword(String loginId, UserPasswordDTO userPasswordDTO) {
 
         ShopUser shopUser = shopUserRepository.findByLoginId(loginId);
 
+        if (shopUser.getLoginId() == null) {
+            throw new IllegalStateException("찾을수 없는 회원입니다.");
+        }
 
 
+        shopUser.updatePassword(userPasswordDTO,passwordEncoder);
 
-
-        return null;
+        return shopUserRepository.save(shopUser);
     }
+
+
+
 
 
 

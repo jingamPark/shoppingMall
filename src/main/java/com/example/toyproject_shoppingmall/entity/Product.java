@@ -1,5 +1,6 @@
 package com.example.toyproject_shoppingmall.entity;
 
+import com.example.toyproject_shoppingmall.constant.CategoryType;
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
 import com.example.toyproject_shoppingmall.entity.base.BaseEntity;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @Entity
 @Getter
@@ -40,6 +41,10 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProdSellStatus prodSellStatus; //제품 판매상태(판매중,매진)
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Product(Long id, String prodName, int price, int stockNumber, String prodDetail, ProdSellStatus prodSellStatus) {
 
     }
@@ -47,11 +52,16 @@ public class Product extends BaseEntity {
 
     //상품 업데이트or수정 시  dto값을 받는 메소드 생성
     public void updateProduct(ProductFormDTO productFormDTO) {
+
+        Category updateCategory = new Category();
+
         this.prodName = productFormDTO.getProdName();
         this.price = productFormDTO.getPrice();
         this.stockNumber = productFormDTO.getStockNumber();
         this.prodDetail = productFormDTO.getProdDetail();
         this.prodSellStatus = productFormDTO.getProdSellStatus();
+        this.category = updateCategory;
+
     }
 
     //상품 재고 감소

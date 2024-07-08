@@ -69,9 +69,11 @@ public class ShopUser extends BaseEntity {
     }
 
 
-    public void updatePassword(UserPasswordDTO userPasswordDTO, PasswordEncoder passwordEncoder ) {
-        String password = passwordEncoder.encode(userPasswordDTO.getNewPassword());
-        this.password = password;
+    public void updatePassword(UserPasswordDTO userPasswordDTO, PasswordEncoder passwordEncoder) {
+
+        String newPassword  = passwordEncoder.encode(userPasswordDTO.getNewPassword());
+
+        this.password = newPassword;
 
     }
 

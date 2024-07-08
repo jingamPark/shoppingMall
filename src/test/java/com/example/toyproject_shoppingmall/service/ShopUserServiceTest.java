@@ -1,5 +1,6 @@
 package com.example.toyproject_shoppingmall.service;
 
+import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
 import com.example.toyproject_shoppingmall.repository.ShopUserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -22,30 +23,40 @@ class ShopUserServiceTest {
 
     @Autowired
     ShopUserService shopUserService;
+    @Autowired
+    ShopUserRepository shopUserRepository;
 
-
-
-    @Test
-    @DisplayName("아이디 찾기")
-    public void findUserId() {
-
+    public ShopUser saveUser() {
         ShopUser shopUser = new ShopUser();
-
         shopUser.setName("길동");
-        shopUser.setLoginId("hong");
+        shopUser.setLoginId("test");
         shopUser.setEmail("a@a.a");
         shopUser.setPassword("12341234");
         shopUser.setTel("010-1111-2222");
         shopUser.setAddress("부천시");
+        return shopUserRepository.save(shopUser);
+    }
 
-        ShopUser save=  shopUserService.saveUser(shopUser);
 
 
-        ShopUser findid = shopUserService.findLoginId(shopUser.getEmail(), shopUser.getName());
-        log.info(findid);
 
+
+    @Test
+    @DisplayName("비밀번호 변경")
+    public void resetPassword() {
+        UserPasswordDTO userPasswordDTO =new UserPasswordDTO();
+
+        userPasswordDTO.setNewPassword("newPass");
+
+        ShopUser newpass= shopUserService.resetPassword(saveUser().getLoginId(), userPasswordDTO);
+
+        log.info(newpass);
 
     }
+
+
+
+
 
 
 

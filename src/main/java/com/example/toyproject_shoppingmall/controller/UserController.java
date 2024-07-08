@@ -4,20 +4,24 @@ package com.example.toyproject_shoppingmall.controller;
 import com.example.toyproject_shoppingmall.dto.UserFormDTO;
 import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
+import com.example.toyproject_shoppingmall.repository.ShopUserRepository;
 import com.example.toyproject_shoppingmall.service.ShopUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.security.Principal;
 
 @Controller
 @Log4j2
@@ -28,8 +32,7 @@ public class UserController {
     private final ShopUserService shopUserService;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender javaMailSender;
-
-
+    private final ShopUserRepository shopUserRepository;
 
 
     @GetMapping(value = "/signup")
@@ -113,76 +116,69 @@ public class UserController {
 
 
 
-    @GetMapping("/passcheck")
-    public String getPassCheck() {
+    @GetMapping("/passfind")
+    public String passFind() {
 
 
-        return "/users/passcheck";
+        return "/users/passFind";
     }
 
-    @PostMapping("/passcheck")
-    public String passCheck(String loginId, String email, Model model) {
+    @PostMapping("/passfind")
+    public String passFind(String loginId, String email, Model model) {
         log.info(loginId);
         log.info(email);
         
         ShopUser findPass = shopUserService.findPassword(loginId,email);
         if (findPass != null){
             log.info("성공");
-            model.addAttribute("email", findPass.getEmail());
-            return "redirect:/users/passchange";
+            model.addAttribute("loginId", findPass.getLoginId()); //비밀번호를 변경할 아이디
+            //저장
+            return "/users/passreset";
         }else {
             log.info("실패 다시 입력");
             model.addAttribute("err", "아이디 또는 이메일을 확인해주세요");
-            return "/users/passcheck";
+            return "/users/passFind";
         }
 
 
     }
 
 
-    @GetMapping("/passchange")
-    public String passChange(Model model, UserPasswordDTO userPasswordDTO){
-
-        model.addAttribute("userPasswordDTO", userPasswordDTO);
 
 
-        return "/users/passChange";
-    }
+    @PostMapping("/passreset")
+    public String passReset(@Valid UserPasswordDTO userPasswordDTO, String loginId) {
 
-    @PostMapping("/passchange")
-    public String passChange(UserPasswordDTO userPasswordDTO,String loginId, String email, Model model) {
+        log.info("받아온 loginId:" + loginId);
 
-        log.info("변경 한 비밀번호 : " + userPasswordDTO.getNewPassword());
-        log.info("변경 한 비밀번호2 : " + userPasswordDTO.getNewPassword2());
+        shopUserService.resetPassword(loginId, userPasswordDTO);
 
 
-
-//        if (!userFormDTO.getPassword().equals(userFormDTO.getPassword2())){
-//            bindingResult.rejectValue("password2","passwordInCorrect"
-//                    ,"2개의 패스워드가 일치하지 않습니다.");
-//            return "users/userForm";
-//        }
-
-
-
-        return "/users/login";
+        return "users/loginForm";
     }
 
 
-    @GetMapping("/modify")
-    public String modify() {
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
-
-        return "/users/modify";
-    }
-
-    @GetMapping("/profile/{shopuserId}")
-    public String profile(Model model) {
+        String userName=userDetails.getUsername();
+        ShopUser shopUser = shopUserRepository.findByLoginId(userName);
+        model.addAttribute("user",shopUser);
 
 
 
         return "/users/profile";
     }
+
+
+    @PostMapping("/modify")
+    public String modify() {
+
+        return "/users/modify";
+    }
+
+
+
 
 
 }
