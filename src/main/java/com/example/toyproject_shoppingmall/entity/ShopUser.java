@@ -26,7 +26,7 @@ public class ShopUser extends BaseEntity {
     private String loginId; //아이디
 
     @Column(nullable = false)
-    private String password;   //비밀번호
+    private String password;   //비밀번호product
 
     @Column(nullable = false)
     private String name;       //유저의 이름

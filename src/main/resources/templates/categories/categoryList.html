@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <title>Categories</title>
+
+</head>
+<body>
+
+<div layout:fragment="content" >
+    <h1>Categories</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.title}">Title</td>
+            <td th:text="${category.description}">Description</td>
+            <td>
+                <a >View</a>
+                <a>Edit</a>
+                <a >Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div> <!--content-->
+</body>
+</html>

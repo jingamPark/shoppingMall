@@ -39,6 +39,7 @@ public class AdminProductController {
 
         model.addAttribute("productFormDTO",new ProductFormDTO());
 
+
         return "products/productForm";
     }
 

@@ -163,8 +163,8 @@ public class UserController {
 
         String userName=userDetails.getUsername();
         ShopUser shopUser = shopUserRepository.findByLoginId(userName);
-        model.addAttribute("user",shopUser);
 
+        model.addAttribute("user",shopUser);
 
 
         return "/users/profile";

@@ -1,7 +1,9 @@
 package com.example.toyproject_shoppingmall.dto;
 
 
+import com.example.toyproject_shoppingmall.constant.CategoryType;
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
+import com.example.toyproject_shoppingmall.entity.Category;
 import com.example.toyproject_shoppingmall.entity.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -32,8 +34,9 @@ public class ProductFormDTO {
     private String prodDetail; // 제품 설명
     @NotNull(message = "재고는 필수 입력 값 입니다.")
     private int stockNumber; //재고수량
+    @NotNull(message = "재고는 필수 입력 값 입니다.")
 
-
+    private CategoryType categoryType;
 
     private ProdSellStatus prodSellStatus;
 

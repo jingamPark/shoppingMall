@@ -41,27 +41,21 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProdSellStatus prodSellStatus; //제품 판매상태(판매중,매진)
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @Enumerated(EnumType.STRING)
+    private CategoryType categoryType;
 
-    public Product(Long id, String prodName, int price, int stockNumber, String prodDetail, ProdSellStatus prodSellStatus) {
 
-    }
 
 
     //상품 업데이트or수정 시  dto값을 받는 메소드 생성
     public void updateProduct(ProductFormDTO productFormDTO) {
-
-        Category updateCategory = new Category();
 
         this.prodName = productFormDTO.getProdName();
         this.price = productFormDTO.getPrice();
         this.stockNumber = productFormDTO.getStockNumber();
         this.prodDetail = productFormDTO.getProdDetail();
         this.prodSellStatus = productFormDTO.getProdSellStatus();
-        this.category = updateCategory;
-
+        this.categoryType = productFormDTO.getCategoryType();
     }
 
     //상품 재고 감소
