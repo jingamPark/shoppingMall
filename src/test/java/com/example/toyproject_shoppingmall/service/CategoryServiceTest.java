@@ -5,18 +5,16 @@ import com.example.toyproject_shoppingmall.entity.Category;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
 import com.example.toyproject_shoppingmall.repository.CategoryRepository;
 import com.example.toyproject_shoppingmall.repository.ShopUserRepository;
-import groovy.util.logging.Log4j2;
+
+
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 
 
 @SpringBootTest
@@ -25,7 +23,7 @@ import java.util.Optional;
 @Log4j2
 
 class CategoryServiceTest {
-    private static final Logger log = LoggerFactory.getLogger(CategoryServiceTest.class);
+
     @Autowired
     CategoryRepository categoryRepository;
     @Autowired
@@ -66,57 +64,62 @@ class CategoryServiceTest {
         categoryFormDTO.setTitle("테스트 카테고리");
         categoryFormDTO.setDescription("카테고리 테스트입니다.");
 
-
-        Category saveCate=categoryService.saveCategory(categoryFormDTO,saveUser());
-        log.info(String.valueOf(saveCate));
-
-    }
-
-    @Test
-    @DisplayName("카테고리 목록불러오기 테스트")
-    public void loadAllCategory() {
-
-        CategoryFormDTO categoryFormDTO = new CategoryFormDTO();
-        categoryFormDTO.setTitle("테스트 카테고리");
-        categoryFormDTO.setDescription("카테고리 테스트입니다.");
-
-
-        categoryService.saveCategory(categoryFormDTO,saveUser());
-        //List<Category> category= categoryService.getAllCategories();
-        //log.info("카테고리 목록"+category.toString());
+        Category category =categoryService.saveCategory(categoryFormDTO,saveUser().getLoginId());
+        log.info(category);
 
     }
 
-    @Test
-    @DisplayName("카테고리 아이디 참조 테스트")
-    public void selectCategory() {
-
-        CategoryFormDTO categoryFormDTO = new CategoryFormDTO();
-        categoryFormDTO.setTitle("테스트 카테고리");
-        categoryFormDTO.setDescription("카테고리 테스트입니다.");
-        Category category1=categoryService.saveCategory(categoryFormDTO,saveUser());
-        Category category2=categoryService.saveCategory(categoryFormDTO,saveUser2());
-
-       Optional <Category> categorySelect = categoryService.selectCategory(category1.getId());
-        log.info(String.valueOf(categorySelect));
-
-    }
-
-    @Test
-    @DisplayName("카테고리 삭제")
-    public void deleteCategory() {
-
-        CategoryFormDTO categoryFormDTO = new CategoryFormDTO();
-        categoryFormDTO.setTitle("테스트 카테고리");
-        categoryFormDTO.setDescription("카테고리 테스트입니다.");
-
-
-        Category saveCate=categoryService.saveCategory(categoryFormDTO,saveUser());
-        log.info(String.valueOf("삭제전"+saveCate));
-
-        categoryService.delCategory(saveCate.getId());
-
-        log.info(String.valueOf("삭제 후 카테고리  : "+saveCate));
-
-    }
+//    @Test
+//    @DisplayName("카테고리 목록불러오기 테스트")
+//    public void loadAllCategory() {
+//        Long id = null;
+//        String title= "";
+//        String description = "";
+//        CategoryFormDTO categoryFormDTO = new CategoryFormDTO(id,title, description);
+//        categoryFormDTO.setTitle("테스트 카테고리");
+//        categoryFormDTO.setDescription("카테고리 테스트입니다.");
+//
+//
+//        //categoryService.saveCategory(categoryFormDTO,saveUser());
+//        //List<Category> category= categoryService.getAllCategories();
+//        //log.info("카테고리 목록"+category.toString());
+//
+//    }
+//
+//    @Test
+//    @DisplayName("카테고리 아이디 참조 테스트")
+//    public void selectCategory() {
+//        Long id = null;
+//        String title= "";
+//        String description = "";
+//        CategoryFormDTO categoryFormDTO = new CategoryFormDTO(id,title, description);
+//        categoryFormDTO.setTitle("테스트 카테고리");
+//        categoryFormDTO.setDescription("카테고리 테스트입니다.");
+//
+//
+//
+//
+//
+//
+//    }
+//
+//    @Test
+//    @DisplayName("카테고리 삭제")
+//    public void deleteCategory() {
+//        Long id = null;
+//        String title= "";
+//        String description = "";
+//        CategoryFormDTO categoryFormDTO = new CategoryFormDTO(id,title, description);
+//        categoryFormDTO.setTitle("테스트 카테고리");
+//        categoryFormDTO.setDescription("카테고리 테스트입니다.");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    }
 }

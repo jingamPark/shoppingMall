@@ -1,10 +1,13 @@
 package com.example.toyproject_shoppingmall.controller;
 
 
+import com.example.toyproject_shoppingmall.dto.CategoryFormDTO;
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
 import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
+import com.example.toyproject_shoppingmall.entity.Category;
 import com.example.toyproject_shoppingmall.entity.Product;
+import com.example.toyproject_shoppingmall.service.CategoryService;
 import com.example.toyproject_shoppingmall.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -33,10 +36,14 @@ import java.util.Optional;
 public class AdminProductController {
 
     private final ProductService productService;
-
+    private final CategoryService categoryService;
     @GetMapping(value = "/new")
-    public String getProductForm(Principal principal,Model model) {
+    public String getProductForm(Principal principal,Long categoryId, Model model) {
 
+        log.info("가져온 카테고리 : " +categoryId);
+        List<CategoryFormDTO> categories =categoryService.getAllCategories();
+
+        model.addAttribute("categories",categories);
         model.addAttribute("productFormDTO",new ProductFormDTO());
 
 
@@ -64,8 +71,6 @@ public class AdminProductController {
             model.addAttribute("errorMessage", "상품등록 중 에러가 발생 하였습니다");
             return "products/productForm";
         }
-
-
 
         return "redirect:/";
     }

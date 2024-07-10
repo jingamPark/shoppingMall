@@ -10,6 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Controller
 @Log4j2
@@ -30,7 +33,13 @@ public class ProductController {
         return "/products/view";
     }
 
-
+    @GetMapping
+    public String listByCategory(Model model, @RequestParam("category") String category) {
+        List<ProductFormDTO> products = productService.getProductsByCategory(category);
+        model.addAttribute("products", products);
+        model.addAttribute("category", category);
+        return "/products/list";
+    }
 
 
 

@@ -2,6 +2,7 @@ package com.example.toyproject_shoppingmall.entity;
 
 import com.example.toyproject_shoppingmall.constant.CategoryType;
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
+import com.example.toyproject_shoppingmall.dto.CategoryFormDTO;
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
 import com.example.toyproject_shoppingmall.entity.base.BaseEntity;
 import com.example.toyproject_shoppingmall.exception.OutOfStockException;
@@ -41,9 +42,9 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProdSellStatus prodSellStatus; //제품 판매상태(판매중,매진)
 
-    @Enumerated(EnumType.STRING)
-    private CategoryType categoryType;
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id",nullable = false)
+    private Category category;
 
 
 
@@ -55,14 +56,12 @@ public class Product extends BaseEntity {
         this.stockNumber = productFormDTO.getStockNumber();
         this.prodDetail = productFormDTO.getProdDetail();
         this.prodSellStatus = productFormDTO.getProdSellStatus();
-        this.categoryType = productFormDTO.getCategoryType();
+        this.category = productFormDTO.getCategory();
     }
 
     //상품 재고 감소
     public void removeStock(int stockNumber) {
         int restStock =this.stockNumber - stockNumber;
-
-
 
         if (restStock < 0) {
             throw new OutOfStockException("상품의 재고가 부족 합니다. " +
@@ -70,8 +69,6 @@ public class Product extends BaseEntity {
 
 
         }
-
-
 
         this.stockNumber = restStock;
     }

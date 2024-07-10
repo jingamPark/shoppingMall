@@ -34,14 +34,16 @@ public class Category extends BaseEntity {
     private ShopUser shopUser;  // 유저의 아이디 참조
 
 
-    public static Category updateCategory(CategoryFormDTO categoryFormDTO,ShopUser shopUser) {
-        Category category = new Category();
-        category.setTitle(categoryFormDTO.getTitle());
-        category.setDescription(categoryFormDTO.getDescription());
-        category.setShopUser(shopUser);
 
-        return category;
+    public void updateCategory(CategoryFormDTO categoryFormDTO, ShopUser shopUser) {
+
+        this.title = categoryFormDTO.getTitle();
+        this.description = categoryFormDTO.getDescription();
+        this.shopUser = shopUser;
+
     }
+
+
 
 
 }

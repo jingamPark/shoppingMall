@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>카테고리 생성</title>
+</head>
+<body>
+<div layout:fragment="content" >
+
+    <div class="pagetitle">
+        <h1>카테고리 등록</h1>
+    </div><!-- End Page Title -->
+
+    <section class="section" >
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">카테고리 등록 양식 </h6>
+
+                        <!-- Form Elements -->
+                        <form method="post"  th:object="${categoryFormDTO}" >
+
+                            <input type="hidden" th:field="*{id}">
+
+
+                            <div class="row mb-3">
+                                <label for="inputTitle" class="col-sm-2 col-form-label" id="prodName">카테고리명</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="inputTitle" class="form-control" th:field="*{title}" placeholder="카테고리명을 입력해 주십시오">
+                                </div>
+                            </div>
+
+
+                            <br>
+                            <p>카테고리 설명</p>
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" style="height: 100px;" th:field="*{description}"></textarea>
+                                <label for="floatingTextarea">내용</label>
+                            </div>
+
+
+
+
+                            <div th:if="${#strings.isEmpty(categoryFormDTO.id)}" style="text-align: center">
+                                <button th:formaction="@{/categories/create}" type="submit" class="btn btn-primary">
+                                     등록
+                                </button>
+                            </div>
+
+                            <div th:unless="${#strings.isEmpty(categoryFormDTO.id)}" style="text-align: center">
+                                <button th:formaction="@{'/categories/' + ${categoryFormDTO.id} }" type="submit" class="btn btn-primary">
+                                    수정
+                                </button>
+                            </div>
+
+
+
+
+                        </form><!-- End General Form Elements -->
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+</div>
+
+
+
+</body>
+</html>

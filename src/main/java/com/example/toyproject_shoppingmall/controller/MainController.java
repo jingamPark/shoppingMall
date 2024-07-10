@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 import java.util.Optional;
@@ -31,7 +32,7 @@ public class MainController {
     private final ProductService productService;
 
 
-    @GetMapping(value = {"/","/{page}"})
+    @GetMapping(value = {"/","/{page}","/list/{title}"})
     public String main(ProductSearchDTO productSearchDTO
             , @PathVariable Optional<Integer> page, Model model) {
 

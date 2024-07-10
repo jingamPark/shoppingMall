@@ -8,14 +8,14 @@ import com.example.toyproject_shoppingmall.entity.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
 import lombok.Setter;
 import lombok.ToString;
-import org.modelmapper.ModelMapper;
+    import org.modelmapper.ModelMapper;
 
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
 
 @Getter @Setter
@@ -36,7 +36,7 @@ public class ProductFormDTO {
     private int stockNumber; //재고수량
     @NotNull(message = "재고는 필수 입력 값 입니다.")
 
-    private CategoryType categoryType;
+    private Category category;
 
     private ProdSellStatus prodSellStatus;
 
