@@ -12,6 +12,10 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Long>, QuerydslPredicateExecutor<Product>, ProductRepositoryCustom {
 
     List<Product> findByCategoryTitle(String categoryTitle);
+
+
+
+
     //제품 제목으로 검색
     List<Product> findByProdName (String prodName);
 

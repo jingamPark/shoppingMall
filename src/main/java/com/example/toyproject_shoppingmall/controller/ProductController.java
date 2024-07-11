@@ -33,13 +33,6 @@ public class ProductController {
         return "/products/view";
     }
 
-    @GetMapping
-    public String listByCategory(Model model, @RequestParam("category") String category) {
-        List<ProductFormDTO> products = productService.getProductsByCategory(category);
-        model.addAttribute("products", products);
-        model.addAttribute("category", category);
-        return "/products/list";
-    }
 
 
 

@@ -35,7 +35,7 @@ public class CategoryController {
 
         List<CategoryFormDTO> categories = categoryService.getAllCategories();
 
-        categories.forEach(category -> log.info(category));
+      //  categories.forEach(category -> log.info(category));
 
         return  new ResponseEntity<List<CategoryFormDTO>>( categories, HttpStatus.OK);
 
@@ -79,7 +79,7 @@ public class CategoryController {
     @GetMapping(value = "/{categoryId}")
     public String categoryDtl(@PathVariable("categoryId") Long categoryId, Model model) {
 
-        log.info("제품 아이디는 가져옴?? >>>>"+categoryId);
+      //  log.info("제품 아이디는 가져옴?? >>>>"+categoryId);
 
         CategoryFormDTO categoryFormDTO = categoryService.selectCategory(categoryId);
        // log.info(categoryFormDTO);

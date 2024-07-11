@@ -22,6 +22,8 @@ public class MainProductDTO {
 
     private Integer price;
 
+    private String category;
+
     @QueryProjection
     public MainProductDTO(Long id,String prodName, String prodDetail, String imgUrl, Integer price) {
         this.id = id;
@@ -29,6 +31,7 @@ public class MainProductDTO {
         this.prodDetail = prodDetail;
         this.imgUrl = imgUrl;
         this.price = price;
+
     }
 
 }

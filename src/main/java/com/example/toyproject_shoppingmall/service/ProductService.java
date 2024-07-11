@@ -76,6 +76,8 @@ public class ProductService {
 
     }
 
+
+
     public Long updateProduct(ProductFormDTO productFormDTO,
                               List<MultipartFile> productImgFileList) throws Exception {
 
@@ -108,6 +110,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<ProductFormDTO> getProductsByCategory(String categoryTitle) {
+
         List<Product> products = productRepository.findByCategoryTitle(categoryTitle);
         List<ProductFormDTO> productFormDTOList = new ArrayList<>();
         for (Product product : products) {

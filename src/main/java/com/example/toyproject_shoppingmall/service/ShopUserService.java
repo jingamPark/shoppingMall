@@ -2,12 +2,15 @@ package com.example.toyproject_shoppingmall.service;
 
 
 import com.example.toyproject_shoppingmall.constant.Role;
+import com.example.toyproject_shoppingmall.dto.PassChangeDTO;
+import com.example.toyproject_shoppingmall.dto.UserFormDTO;
 import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
 
 import com.example.toyproject_shoppingmall.repository.ShopUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +30,16 @@ public class ShopUserService implements UserDetailsService {
 
     private final ShopUserRepository shopUserRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
+
+    //비밀번호 변경
+    public PassChangeDTO changePassword(String loginId) {
+        ShopUser user = shopUserRepository.findByLoginId(loginId);
+        if (user.getLoginId() == null) {
+            throw new IllegalStateException("찾을수 없는 회원입니다.");
+        }
+        return null;/*비밀번호 변경 로직 완성하기*/
+    }
 
     //비밀번호 초기화
     public ShopUser resetPassword(String loginId, UserPasswordDTO userPasswordDTO) {
@@ -42,11 +55,6 @@ public class ShopUserService implements UserDetailsService {
 
         return shopUserRepository.save(shopUser);
     }
-
-
-
-
-
 
 
     //회원가입
@@ -89,6 +97,37 @@ public class ShopUserService implements UserDetailsService {
 
     }
 
+    //회원정보
+    public UserFormDTO profile(String loginId) {
+        //로그인 확인 로그인한 유저아이디와 데이터베이스의id 가져와서 확인
+
+        ShopUser loginUser = shopUserRepository.findByLoginId(loginId);
+        if (loginUser == null) {
+            log.info("다른 유저입니다.");
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + loginId);
+        }
+
+        UserFormDTO userFormDTO = modelMapper.map(loginUser, UserFormDTO.class);
+
+        return userFormDTO;
+    }
+
+    //회원정보 변경
+    public ShopUser modify(UserFormDTO userFormDTO,String loginId) {
+        //로그인 확인 로그인한 유저아이디와 데이터베이스의id 가져와서 확인
+
+        ShopUser loginUser = shopUserRepository.findByLoginId(loginId);
+        if (loginUser == null) {
+            log.info("다른 유저입니다.");
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + loginId);
+        }
+
+
+        loginUser.modifyUser(userFormDTO);
+
+        return shopUserRepository.save(loginUser);
+    }
+
 
     //이름과 이메일로 아이디 찾기
 
@@ -104,11 +143,6 @@ public class ShopUserService implements UserDetailsService {
 
         return shopUserRepository.findByLoginIdAndEmail(loginId,email);
     }
-
-
-
-
-
 
 
 
@@ -136,4 +170,9 @@ public class ShopUserService implements UserDetailsService {
                 .roles(role)
                 .build();
     }
+
+
+
+
+
 }

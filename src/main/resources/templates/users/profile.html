@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-                            <h2><span th:text="${user.getName()}"></span>님 의 개인정보 페이지 입니다.</h2>
+                            <h2><span th:text="${userFormDTO.name}"></span>님 의 개인정보 페이지 입니다.</h2>
 
                         </div>
                     </div>
@@ -62,61 +62,60 @@
 
                                     <div class="row mt-4">
                                         <div class="col-lg-3 col-md-4 label ">이름</div>
-                                        <div class="col-lg-9 col-md-8" th:text="${user.getName()}"></div>
+                                        <div class="col-lg-9 col-md-8" th:text="${userFormDTO.getName()}"></div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">아이디</div>
-                                        <div class="col-lg-9 col-md-8" th:text="${user.getLoginId()}"></div>
+                                        <div class="col-lg-9 col-md-8" th:text="${userFormDTO.getLoginId()}"></div>
                                     </div>
 
 
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">이메일</div>
-                                        <div class="col-lg-9 col-md-8" th:text="${user.getEmail()}"></div>
+                                        <div class="col-lg-9 col-md-8" th:text="${userFormDTO.getEmail()}"></div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">주소</div>
-                                        <div class="col-lg-9 col-md-8" th:text="${user.getAddress()}"></div>
+                                        <div class="col-lg-9 col-md-8" th:text="${userFormDTO.getAddress()}"></div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col-lg-3 col-md-4 label">전화번호</div>
-                                        <div class="col-lg-9 col-md-8" th:text="${user.getTel()}"></div>
+                                        <div class="col-lg-9 col-md-8" th:text="${userFormDTO.getTel()}"></div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col-lg-3 col-md-4 label">유저의 권한</div>
-                                        <div class="col-lg-9 col-md-8" th:text="${user.getRole()}"></div>
-                                    </div>
+
 
                                 </div>
 
                                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                     <!-- Profile Edit Form -->
-                                    <form action="/users/modify">
+                                    <form action="/users/modify" method="post" th:object="${userFormDTO}" >
+
+
 
                                         <div class="row mb-3">
                                             <label for="fullName" class="col-md-4 col-lg-3 col-form-label">이름</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="shopUserName" type="text" class="form-control" id="fullName" placeholder="이름을 입력해 주세요" value="">
+                                                <input th:field="*{name}" name="shopUserName" type="text" class="form-control" id="fullName" placeholder="이름을 입력해 주세요" minlength="2" maxlength="10">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="fullName" class="col-md-4 col-lg-3 col-form-label">주소</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" class="form-control" id="fullName" placeholder="주소를 입력해 주세요" value="">
+                                                <input  th:field="*{address}" name="fullName" type="text" class="form-control" id="fullName" placeholder="주소를 입력해 주세요" minlength="2" maxlength="8">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <label for="fullName" class="col-md-4 col-lg-3 col-form-label">전화번호</label>
                                             <div class="col-md-8 col-lg-9">
-                                                <input name="fullName" type="text" class="form-control" id="fullName" value="">
+                                                <input  th:field="*{tel}" name="fullName" type="text" class="form-control" id="fullName" value="">
                                             </div>
                                         </div>
 
@@ -133,24 +132,24 @@
 
                                 <div class="tab-pane fade pt-3" id="profile-change-password">
                                     <!-- Change Password Form -->
-                                    <form>
+                                    <form method="post" action="/">
 
                                         <div class="row mb-3">
-                                            <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                                            <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">기존 비밀번호</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="password" type="password" class="form-control" id="currentPassword">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                                            <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">변경할 비밀번호</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="newpassword" type="password" class="form-control" id="newPassword">
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
-                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                                            <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">변경할 비밀번호 확인</label>
                                             <div class="col-md-8 col-lg-9">
                                                 <input name="renewpassword" type="password" class="form-control" id="renewPassword">
                                             </div>

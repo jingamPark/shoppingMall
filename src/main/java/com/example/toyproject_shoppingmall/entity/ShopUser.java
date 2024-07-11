@@ -68,6 +68,17 @@ public class ShopUser extends BaseEntity {
         return shopUser;
     }
 
+    public void modifyUser(UserFormDTO userFormDTO) {
+        if (userFormDTO.getName() != null) {
+            this.setName(userFormDTO.getName());
+        }
+        if (userFormDTO.getAddress() != null) {
+            this.setAddress(userFormDTO.getAddress());
+        }
+        if (userFormDTO.getTel() != null) {
+            this.setTel(userFormDTO.getTel());
+        }
+    }
 
     public void updatePassword(UserPasswordDTO userPasswordDTO, PasswordEncoder passwordEncoder) {
 

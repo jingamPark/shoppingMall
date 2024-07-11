@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -32,7 +33,7 @@ public class MainController {
     private final ProductService productService;
 
 
-    @GetMapping(value = {"/","/{page}","/list/{title}"})
+    @GetMapping(value = {"/","/{page}"})
     public String main(ProductSearchDTO productSearchDTO
             , @PathVariable Optional<Integer> page, Model model) {
 
@@ -40,6 +41,9 @@ public class MainController {
 
         Page<MainProductDTO> products = productService
                 .getMainProductPage(productSearchDTO, pageable);
+        log.info("main프로덕트의 제품 목록 : "+products.toString());
+
+
 
         model.addAttribute("productSearchDTO", productSearchDTO);
         log.info("페이지 정보 ??? : "+products.toString());
@@ -51,6 +55,20 @@ public class MainController {
 
         return "main";
     }
+
+
+//    @GetMapping
+//    public String listByCategory(Model model, @RequestParam("category") String category) {
+//
+//        log.info("카테고리: " + category);
+//        List<ProductFormDTO> products = productService.getProductsByCategory(category);
+//        log.info("제품 정보 : " + products);
+//        model.addAttribute("products", products);
+//        model.addAttribute("category", category);
+//        return "main"+category;
+//    }
+
+
 
 
 }

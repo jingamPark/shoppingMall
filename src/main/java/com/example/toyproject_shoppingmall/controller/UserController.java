@@ -159,12 +159,12 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String profile(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String profile(Principal principal, Model model, UserFormDTO userFormDTO) {
 
-        String userName=userDetails.getUsername();
-        ShopUser shopUser = shopUserRepository.findByLoginId(userName);
 
-        model.addAttribute("user",shopUser);
+        userFormDTO =  shopUserService.profile(principal.getName());
+
+        model.addAttribute("userFormDTO", userFormDTO);
 
 
         return "/users/profile";
@@ -172,11 +172,24 @@ public class UserController {
 
 
     @PostMapping("/modify")
-    public String modify() {
+    public String modify(UserFormDTO userFormDTO,Principal principal
+            ,BindingResult bindingResult,Model model) {
+        String loginId = principal.getName();
 
-        return "/users/modify";
+
+            shopUserService.modify(userFormDTO,loginId);
+
+
+        return "redirect:/users/profile";
     }
 
+    @PostMapping("/passchange")
+    public String passChange() {
+
+
+
+        return "redirect:/users/profile";
+    }
 
 
 

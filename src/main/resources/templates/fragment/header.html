@@ -212,7 +212,7 @@
 
                             for(let i = 0; i < data.length; i++){
                                 let str = "";
-                                str += `<ul><li><a href="/products?category=${data[i].title}" >${data[i].title}</a></li></ul>`
+                                str += `<ul><li><a href="/?category=${data[i].title}" >${data[i].title}</a></li></ul>`
                                 let $categoriesNav = $("#categories-nav").append(str)
                             }
                         },

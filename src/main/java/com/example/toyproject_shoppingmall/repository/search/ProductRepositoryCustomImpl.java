@@ -93,6 +93,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
         QProduct product = QProduct.product;
         QProductImg productImg = QProductImg.productImg;
 
+
         QueryResults<MainProductDTO> results = jpaQueryFactory
                 .select(
                         new QMainProductDTO(
@@ -101,7 +102,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
                                 product.prodDetail,
                                 productImg.imgUrl,
                                 product.price
-                        )
+                                                                )
                 )
                 .from(productImg)
                 .join(productImg.product, product)
