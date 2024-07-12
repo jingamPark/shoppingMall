@@ -2,6 +2,7 @@ package com.example.toyproject_shoppingmall.entity;
 
 
 import com.example.toyproject_shoppingmall.constant.Role;
+import com.example.toyproject_shoppingmall.dto.PassChangeDTO;
 import com.example.toyproject_shoppingmall.dto.UserFormDTO;
 import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.base.BaseEntity;
@@ -9,6 +10,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
@@ -17,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @ToString
 @Table(name = "shopuser")
 public class ShopUser extends BaseEntity {
+    private static final Logger log = LoggerFactory.getLogger(ShopUser.class);
     @Id
     @Column(name = "shopuser_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +34,7 @@ public class ShopUser extends BaseEntity {
 
     @Column(nullable = false)
     private String name;       //유저의 이름
+
 
     @Column(unique = true, nullable = false)
     private String email;      //이메일
@@ -88,6 +93,19 @@ public class ShopUser extends BaseEntity {
 
     }
 
+    public boolean passChange(PassChangeDTO passChangeDTO, PasswordEncoder passwordEncoder) {
+        //passwordEncoder.matches(변경할 비밀번호(DB에입력받은) , 원시(기존) 비밀번호) 잘 모르겠으면 코드를 따라가보자
+        boolean ps = passwordEncoder.matches(passChangeDTO.getCurPassword(),this.getPassword());
+        if (ps) {
 
+            log.info("값일치" + passChangeDTO.getNewPassword());
+            log.info(this.getName());
+            this.setName("짱구");
+            log.info(this.getName());
+            this.setPassword(passwordEncoder.encode(passChangeDTO.getNewPassword()));
+            return ps;
+        }
+        return false;
 
+    }
 }

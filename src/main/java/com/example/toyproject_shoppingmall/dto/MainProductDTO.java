@@ -25,13 +25,13 @@ public class MainProductDTO {
     private String category;
 
     @QueryProjection
-    public MainProductDTO(Long id,String prodName, String prodDetail, String imgUrl, Integer price) {
+    public MainProductDTO(Long id,String prodName, String prodDetail, String imgUrl, Integer price,String category) {
         this.id = id;
         this.prodName = prodName;
         this.prodDetail = prodDetail;
         this.imgUrl = imgUrl;
         this.price = price;
-
+        this.category = category;
     }
 
 }

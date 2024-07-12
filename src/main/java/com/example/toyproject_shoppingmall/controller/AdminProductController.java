@@ -3,9 +3,7 @@ package com.example.toyproject_shoppingmall.controller;
 
 import com.example.toyproject_shoppingmall.dto.CategoryFormDTO;
 import com.example.toyproject_shoppingmall.dto.ProductFormDTO;
-import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
-import com.example.toyproject_shoppingmall.entity.Category;
 import com.example.toyproject_shoppingmall.entity.Product;
 import com.example.toyproject_shoppingmall.service.CategoryService;
 import com.example.toyproject_shoppingmall.service.ProductService;
@@ -21,9 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.StringUtils;
-
-
 import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
@@ -124,7 +119,6 @@ public class AdminProductController {
     @GetMapping({"/prodMng", "/prodMng/{page}"})
     public String productManage(ProductSearchDTO productSearchDTO, @PathVariable("page") Optional<Integer> page
             , Model model) {
-
 
         Pageable pageable =
                 PageRequest.of(page.isPresent() ? page.get() : 0,3);

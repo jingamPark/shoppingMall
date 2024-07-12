@@ -108,15 +108,6 @@ public class ProductService {
         return productRepository.getMainProductPage(productSearchDTO,pageable);
     }
 
-    @Transactional(readOnly = true)
-    public List<ProductFormDTO> getProductsByCategory(String categoryTitle) {
 
-        List<Product> products = productRepository.findByCategoryTitle(categoryTitle);
-        List<ProductFormDTO> productFormDTOList = new ArrayList<>();
-        for (Product product : products) {
-            productFormDTOList.add(ProductFormDTO.of(product));
-        }
-        return productFormDTOList;
-    }
 
 }//class

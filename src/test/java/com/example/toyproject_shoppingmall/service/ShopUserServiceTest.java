@@ -1,5 +1,6 @@
 package com.example.toyproject_shoppingmall.service;
 
+import com.example.toyproject_shoppingmall.dto.PassChangeDTO;
 import com.example.toyproject_shoppingmall.dto.UserFormDTO;
 import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
@@ -10,7 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.text.html.Option;
 
@@ -28,20 +31,55 @@ class ShopUserServiceTest {
     ShopUserService shopUserService;
     @Autowired
     ShopUserRepository shopUserRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public ShopUser saveUser() {
         ShopUser shopUser = new ShopUser();
         shopUser.setName("길동");
         shopUser.setLoginId("test");
         shopUser.setEmail("a@a.a");
-        shopUser.setPassword("12341234");
+        shopUser.setPassword(passwordEncoder.encode("12341234"));
         shopUser.setTel("010-1111-2222");
         shopUser.setAddress("부천시");
         return shopUserRepository.save(shopUser);
     }
 
     @Test
-    @DisplayName("비밀번호 변경")
+    @DisplayName("사용자가 비밀번호 변경시 test")
+    public void changePassTest() {
+
+        PassChangeDTO passChangeDTO = new PassChangeDTO();
+        passChangeDTO.setCurPassword("12341234");
+        passChangeDTO.setNewPassword("78947894");
+
+        ShopUser shopUser = shopUserRepository.findByLoginId(saveUser().getLoginId());
+
+        log.info(shopUser);
+
+
+        boolean rs =shopUserService.changePassword(passChangeDTO,shopUser.getLoginId());
+        log.info(rs + " aaa  : " + shopUser);
+
+        if(passwordEncoder.matches(passChangeDTO.getNewPassword() , shopUser.getPassword())){
+            log.info("비밀번호 일치" + passChangeDTO.getNewPassword());
+            log.info(shopUser.getName());
+        }else {
+            log.info("거짓");
+            log.info(shopUser.getName());
+        }
+
+
+
+
+
+
+
+    }
+
+
+    @Test
+    @DisplayName("비밀번호 분실시 비밀번호 변경")
     public void resetPassword() {
         UserPasswordDTO userPasswordDTO =new UserPasswordDTO();
 

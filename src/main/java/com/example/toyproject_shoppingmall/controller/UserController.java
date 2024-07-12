@@ -1,6 +1,7 @@
 package com.example.toyproject_shoppingmall.controller;
 
 
+import com.example.toyproject_shoppingmall.dto.PassChangeDTO;
 import com.example.toyproject_shoppingmall.dto.UserFormDTO;
 import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
@@ -159,13 +160,13 @@ public class UserController {
 
 
     @GetMapping("/profile")
-    public String profile(Principal principal, Model model, UserFormDTO userFormDTO) {
+    public String profile(Principal principal, Model model, UserFormDTO userFormDTO, PassChangeDTO passChangeDTO) {
 
 
         userFormDTO =  shopUserService.profile(principal.getName());
 
         model.addAttribute("userFormDTO", userFormDTO);
-
+        model.addAttribute("passChangeDTO",passChangeDTO);
 
         return "/users/profile";
     }
@@ -184,11 +185,15 @@ public class UserController {
     }
 
     @PostMapping("/passchange")
-    public String passChange() {
+    public String passChange(PassChangeDTO passChangeDTO , Principal principal) {
+
+        log.info(passChangeDTO.toString());
 
 
+        shopUserService.changePassword(passChangeDTO, principal.getName());
 
-        return "redirect:/users/profile";
+
+        return "redirect:/users/logout" ;
     }
 
 

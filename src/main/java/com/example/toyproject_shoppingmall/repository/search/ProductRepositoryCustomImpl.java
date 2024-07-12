@@ -2,25 +2,17 @@ package com.example.toyproject_shoppingmall.repository.search;
 
 import com.example.toyproject_shoppingmall.constant.ProdSellStatus;
 import com.example.toyproject_shoppingmall.dto.MainProductDTO;
-import com.example.toyproject_shoppingmall.dto.ProductImgDTO;
 import com.example.toyproject_shoppingmall.dto.ProductSearchDTO;
 import com.example.toyproject_shoppingmall.dto.QMainProductDTO;
-import com.example.toyproject_shoppingmall.entity.Product;
-import com.example.toyproject_shoppingmall.entity.ProductImg;
-import com.example.toyproject_shoppingmall.entity.QProduct;
-import com.example.toyproject_shoppingmall.entity.QProductImg;
-import com.example.toyproject_shoppingmall.repository.ProductRepository;
-import com.querydsl.core.QueryFactory;
+import com.example.toyproject_shoppingmall.entity.*;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -88,10 +80,15 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
         return StringUtils.isEmpty(searchQuery) ? null : QProduct.product.prodName.like("%" + searchQuery + "%");
     }
 
+    private BooleanExpression categoryTitleLike(String categoryQuery) {
+        return StringUtils.isEmpty(categoryQuery) ? null : QCategory.category.title.like("%" + categoryQuery + "%");
+    }
+
     @Override
     public Page<MainProductDTO> getMainProductPage(ProductSearchDTO productSearchDTO, Pageable pageable) {
         QProduct product = QProduct.product;
         QProductImg productImg = QProductImg.productImg;
+        QCategory category =QCategory.category;
 
 
         QueryResults<MainProductDTO> results = jpaQueryFactory
@@ -101,17 +98,21 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
                                 product.prodName,
                                 product.prodDetail,
                                 productImg.imgUrl,
-                                product.price
+                                product.price,
+                                category.title
                                                                 )
                 )
                 .from(productImg)
                 .join(productImg.product, product)
+                .join(product.category, category)
                 .where(productImg.repImgYn.eq("Y"))
                 .where(prodNmLike(productSearchDTO.getSearchQuery()))
+                .where(categoryTitleLike(productSearchDTO.getCategoryQuery()))
                 .orderBy(product.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();
+
 
         List<MainProductDTO> content = results.getResults();
         long total =results.getTotal();

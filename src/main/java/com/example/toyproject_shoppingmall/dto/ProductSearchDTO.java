@@ -18,5 +18,6 @@ public class ProductSearchDTO {
 
     private String searchQuery = "";
 
+    private String categoryQuery = "";
 
 }

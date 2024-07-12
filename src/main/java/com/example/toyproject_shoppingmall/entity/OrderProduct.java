@@ -52,5 +52,10 @@ public class OrderProduct extends BaseEntity {
         this.getProduct().addStock(count);
     }
 
+    //주문취소 기능 취소 (다시 주문한 상품을 구매하는 기능)
+    public void cancelReturn() {
+        this.getProduct().removeStock(count);
+    }
+
 
 }

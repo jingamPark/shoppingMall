@@ -15,17 +15,19 @@
         <h2>주문이력</h2>
 
         <div th:each="order : ${orders.getContent()}">
-
             <div class="align-self-center d-flex mb-3">
                 <h4 th:text="${order.orderDate} + ' 주문'"></h4>
                 <div class="ml-3">
                     <th:block th:if="${order.orderStatus.name == 'ORDER'}">
-                        <button type="button" class="btn btn-outline-secondary cancelOrder " th:value="${order.orderId}" >
+                        <button type="button" class="btn btn-outline-secondary cancelOrder" th:attr="data-orderId=${order.orderId}, data-prodname=${order.orderProductDTOList[0].prodName}">
                             주문 취소
                         </button>
                     </th:block>
                     <th:block th:unless="${order.orderStatus.name == 'ORDER'}">
-                        <h4>(취소완료)</h4>
+
+                        <button type="button" class="btn btn-outline-secondary orderReturn" th:attr="data-orderId=${order.orderId}, data-prodname=${order.orderProductDTOList[0].prodName}">
+                           (취소 중) 다시 주문
+                        </button>
                     </th:block>
                 </div>
             </div>
@@ -34,17 +36,13 @@
                     <div class="repImgDiv">
                         <img th:src="${orderProduct.imgUrl}" class="rounded repImg" th:alt="${orderProduct.prodName}">
                     </div>
-
                     <div class="align-self-center w-75">
-                        <span th:text="'상품명 : '+${orderProduct.prodName}"></span><br>
+                        <span th:text="'상품명 : '+${orderProduct.prodName}" id="orderProdName"></span><br>
                         <span th:text="'가격 : ' + ${orderProduct.orderPrice}+ '원'"></span><br>
                         <span th:text="'주문 수량 : ' + ${orderProduct.count}+ '개'"></span>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
 
         <div class="row justify-content-center" th:with="start=${(orders.number/maxPage) * maxPage + 1 } , end=${(orders.totalPages==0 ) ? 1 :  (start + (maxPage -1) < orders.totalPages ? start + (maxPage - 1): orders.totalPages) }">
@@ -73,40 +71,55 @@
         <script th:inline="javascript">
 
 
+
+
             $(document).ready(function () {
 
-                $(".cancelOrder").on("click", function (e) {
-
-                    let orderId = $(this).val();
-                    let url = "/order/" + orderId + "/cancel"
-                    let paramData ={
-                        orderId : orderId
-                    }
+                $(".orderReturn").on("click", function (e) {
+                    e.preventDefault();
+                    let orderId = $(this).attr("data-orderId");
+                    let orderProdName = $(this).attr("data-prodName");
+                    let url = "/order/" + orderId + "/return";
+                    let paramData = {
+                        orderId: orderId
+                    };
                     $.ajax({
-                        url : url,
-                        type : "post",
-                        dataType : "json",
+                        url: url,
+                        type: "post",
+                        dataType: "json",
                         success: function () {
-                            alert("성공")
-                            location.href = "/orders/" +[[${page}]]
+                            alert(orderProdName + " 상품을 다시 주문하였습니다.");
+                            location.href = "/orders/" + [[${page}]]
                         },
                         error: function () {
-                            alert("실패")
-                        },
-
-                    })
-
+                            alert("실패");
+                        }
+                    });
                 });
 
 
+                $(".cancelOrder").on("click", function (e) {
+                    e.preventDefault();
+                    let orderId = $(this).attr("data-orderId");
+                    let orderProdName = $(this).attr("data-prodName");
+                    let url = "/order/" + orderId + "/cancel";
+                    let paramData = {
+                        orderId: orderId
+                    };
+                    $.ajax({
+                        url: url,
+                        type: "post",
+                        dataType: "json",
+                        success: function () {
+                            alert(orderProdName + " 상품을 구매 취소하였습니다.");
+                            location.href = "/orders/" + [[${page}]]
+                        },
+                        error: function () {
+                            alert("실패");
+                        }
+                    });
+                });
             });
-
-
-
-
-
-
-
         </script>
     </div> <!--content-->
 

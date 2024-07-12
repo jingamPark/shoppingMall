@@ -204,11 +204,17 @@
                     contentType : "application/json; charset-8",
                     data: param,
                     dataType : "json",
-                    success: function () {
-                        alert("선택한 상품을 주문하였습니다.")
-                        location.href = "/cart"
+
+                    success: function (result,status,jqXHR) {
+                        alert("선택한 상품을 주문하였습니다.");
+                        console.log(result); // 반환된 데이터를 확인하기 위해 console.log로 출력
+                        setTimeout(function() {
+                            window.location.replace("/cart"); // 페이지 변경
+                        }, 100); // 100ms 지연 후 페이지 변경 (선택적으로 조정 가능)
                     },
+
                     error: function (jqXHR, status, error) {
+                        console.log(error)
                         if (jqXHR.status == '401') {
                             alert("로그인 후 이용해 주세요")
                             location.href='/users/login'
@@ -220,6 +226,7 @@
 
 
                     },
+
 
                 })
             }

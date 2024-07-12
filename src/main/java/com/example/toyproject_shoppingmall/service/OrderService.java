@@ -96,11 +96,7 @@ public class OrderService {
 
     }
 
-    public void cancelOrder(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
-        order.cancelOrder();
 
-    }
 
     public Long orders(List<OrderDTO> orderDTOList, String loginId) {
 
@@ -121,6 +117,15 @@ public class OrderService {
         return order.getId();
     }
 
+    public void cancelOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+        order.cancelOrder();
 
+    }
+
+    public void returnOder(Long orderId) {
+        Order order =orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+        order.returnOder();
+    }
 
 }

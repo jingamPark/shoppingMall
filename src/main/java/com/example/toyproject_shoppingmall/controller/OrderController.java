@@ -93,6 +93,23 @@ public class OrderController {
         return new ResponseEntity<Long>(orderId,HttpStatus.OK);
     }
 
+    @PostMapping("/order/{orderId}/return")
+    public @ResponseBody ResponseEntity returnOrder( @PathVariable("orderId") Long orderId
+            , Principal principal) {
+
+        String email = principal.getName();
+
+        log.info("오더아이디 : " + orderId);
+        if (!orderService.validateOrder(orderId, email)) {
+            return new ResponseEntity<String>("주문취소 권한이 없습니다.", HttpStatus.FORBIDDEN);
+        }
+
+        orderService.returnOder(orderId);
+
+        return new ResponseEntity<Long>(orderId,HttpStatus.OK);
+    }
+
+
 
 
 }

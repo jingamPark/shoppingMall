@@ -22,12 +22,10 @@
                 <i class="bi bi-list toggle-sidebar-btn"></i>
             </div><!-- End Logo -->
 
-            <div class="search-bar">
-                <form class="search-form d-flex align-items-center" method="POST" action="#">
-                    <input type="text" name="query" placeholder="제품검색" title="Enter search keyword">
-                    <button type="submit" title="Search"><i class="bi bi-search"></i></button>
-                </form>
-            </div><!-- End Search Bar -->
+            <form class="search-form d-flex align-items-center" method="GET" action="/">
+                <input type="text" name="searchQuery" placeholder="제품 검색" title="Enter search keyword">
+                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+            </form>
 
             <nav class="header-nav ms-auto">
                 <ul class="d-flex align-items-center">
@@ -142,6 +140,7 @@
 
 
 
+
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#categories-nav" data-bs-toggle="collapse" href="#">
                         <i class="bi bi-layout-text-window-reverse"></i>
@@ -212,7 +211,7 @@
 
                             for(let i = 0; i < data.length; i++){
                                 let str = "";
-                                str += `<ul><li><a href="/?category=${data[i].title}" >${data[i].title}</a></li></ul>`
+                                str += `<ul><li><a href="/?categoryQuery=${data[i].title}" >${data[i].title}</a></li></ul>`
                                 let $categoriesNav = $("#categories-nav").append(str)
                             }
                         },

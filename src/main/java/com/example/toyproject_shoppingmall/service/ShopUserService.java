@@ -33,12 +33,17 @@ public class ShopUserService implements UserDetailsService {
     private final ModelMapper modelMapper;
 
     //비밀번호 변경
-    public PassChangeDTO changePassword(String loginId) {
+    public boolean changePassword(PassChangeDTO passChangeDTO,String loginId) {
+
+        System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ진입");
+        
         ShopUser user = shopUserRepository.findByLoginId(loginId);
-        if (user.getLoginId() == null) {
-            throw new IllegalStateException("찾을수 없는 회원입니다.");
-        }
-        return null;/*비밀번호 변경 로직 완성하기*/
+
+        boolean result = user.passChange(passChangeDTO,passwordEncoder);
+
+        System.out.println("ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ종료 서비스 결고 result : " + result);
+
+        return result;
     }
 
     //비밀번호 초기화
