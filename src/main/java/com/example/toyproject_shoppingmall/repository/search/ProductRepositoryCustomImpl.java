@@ -27,7 +27,7 @@ public class ProductRepositoryCustomImpl implements ProductRepositoryCustom{
     private BooleanExpression searchSellStatusEq(ProdSellStatus searchSellStatus) {
         return searchSellStatus ==
                 null ? null: QProduct.product.prodSellStatus.eq(searchSellStatus);
-    } //오케이
+    }
 
     private BooleanExpression regDTsAfter(String searchDateType) {
         LocalDateTime dateTime = LocalDateTime.now();

@@ -97,11 +97,14 @@ public class CartService {
         cartProduct.updateCount(count);
     }
 
-    public void deleteCartProduct(Long cartProductId) {
-        CartProduct cartProduct = cartProductRepository.findById(cartProductId)
+    public String deleteCartProduct(Long cartProductId) {
+        CartProduct cartProduct = cartProductRepository
+                .findById(cartProductId)
                 .orElseThrow(EntityNotFoundException::new);
+        String cartProdName = cartProduct.getProduct().getProdName();
         cartProductRepository.delete(cartProduct);
 
+        return cartProdName;
     }
 
     public Long orderCartProduct(List<CartOrderDTO> cartOrderDTOList, String loginId) {

@@ -175,23 +175,32 @@ public class UserController {
     @PostMapping("/modify")
     public String modify(UserFormDTO userFormDTO,Principal principal
             ,BindingResult bindingResult,Model model) {
-        String loginId = principal.getName();
 
 
+
+        if (bindingResult.hasErrors()) {
+            return "/users/profile";
+        }
+
+        try {
+            String loginId = principal.getName();
             shopUserService.modify(userFormDTO,loginId);
-
+        }catch (IllegalStateException e){
+            model.addAttribute("errorMsg", e.getMessage());
+            return "users/userForm";
+        }
 
         return "redirect:/users/profile";
     }
 
     @PostMapping("/passchange")
-    public String passChange(PassChangeDTO passChangeDTO , Principal principal) {
+    public String passChange(PassChangeDTO passChangeDTO , Principal principal,Model model) {
 
         log.info(passChangeDTO.toString());
 
 
         shopUserService.changePassword(passChangeDTO, principal.getName());
-
+        model.addAttribute("result","비밀번호가 변경되었습니다, 다시로그인 해주십시오.");
 
         return "redirect:/users/logout" ;
     }

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+
+    <meta charset="UTF-8">
+    <title>유저목록 조회</title>
+
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+
+            $(document).ready(function () {
+                $("#searchBtn").on("click", function (e) {
+                    e.preventDefault();
+                    page(0)
+                    alert("창이뜸??")
+                });
+            });
+
+            function page(page) {
+                var searchDateType = $("#searchDateType").val()
+
+                var role = $("#role").val()
+
+                var searchBy = $("#searchBy").val()
+
+                var searchQuery = $("#floatingInput").val()
+
+                location.href = "/admin/users/list/" + page +
+                    "?searchDateType=" + searchDateType +
+                    "&role=" + role +
+                    "&searchBy=" + searchBy +
+                    "&searchQuery=" + searchQuery
+            }
+
+        </script>
+    </th:block>
+
+
+</head>
+<body>
+
+<div layout:fragment="content" >
+    <form th:action="@{'/admin/users/' + ${users.number}}" role="form" method="get" th:object="${users}">
+        <div class="col-12">
+            <div class="card top-selling overflow-auto">
+                <div class="card-body pb-0">
+                    <h5 class="card-title">유저 관리<span>| 유저 목록</span></h5>
+
+                    <table class="table table-borderless">
+                        <thead>
+                        <tr>
+                            <th scope="col">유저번호</th>
+                            <th scope="col">유저 아이디</th>
+                            <th scope="col">유저 이름</th>
+                            <th scope="col">유저 이메일</th>
+                            <th scope="col">유저 가입일</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user, satatus: ${users.getContent()}">
+                            <th th:text="${user.id}">
+                            <th>
+                                <a th:href="'/admin/users/'+${user.id}" th:text="${user.loginId}"></a>
+                            </th>
+                            <th th:text="${user.name}">
+                            <th th:text="${user.email}">
+                            <th th:text="${user.regTime}">
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <!--페이징 처리 시작-->
+                    <div class="row justify-content-center" th:with="start=${(users.number/maxPage) * maxPage + 1 } , end=${(users.totalPages==0 ) ? 1 :  (start + (maxPage -1) < users.totalPages ? start + (maxPage - 1): users.totalPages) }">
+                        <div class="col-4">
+                            <ul class="pagination">
+                                <!--이전-->
+                                <li class="page-item" th:classappend="${users.first} ? 'disabled' : ''">
+                                    <a class="page-link"   th:onclick="'javascript:page(' + ${users.number - 1} + ')'  ">Previous</a>
+                                </li>
+
+                                <!--반복-->
+                                <li class="page-item" th:each="page: ${#numbers.sequence(start,end)}"  th:classappend="${users.number eq page-1} ? 'active' : ''">
+                                    <a class="page-link" th:onclick="'javascript:page(' + ${page-1} + ')'  ">[[${page}]]</a>
+                                </li>
+
+                                <!--다음-->
+                                <li class="page-item" th:classappend="${users.last} ? 'disabled' : ''">
+                                    <a class="page-link" th:onclick="'javascript:page(' + ${users.number + 1} + ')'  ">Next</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--페이징 처리 끝-->
+
+                    <div class="input-group  align-self-center mb-3" th:object="${userSearchDTO}">
+                        <!--기간검색-->
+                        <select th:field="*{searchDateType}"
+                                class="form-select form-select-lg mb-3" aria-label="Large select example">
+                            <option value="all">전체기간</option>
+                            <option value="1d">1일</option>
+                            <option value="1w">1주</option>
+                            <option value="1m">1개월</option>
+                            <option value="6m">6개월</option>
+                        </select>
+                        <!--판매상태검색-->
+                        <select th:field="*{role}"
+                                class="form-select form-select-lg mb-3" aria-label="Large select example">test
+                            <option value="">-유저권한(전체)-</option>
+                            <option value="ADMIN">관리자</option>
+                            <option value="USER">일반 유저</option>
+                        </select>
+                        <!--상품명 또는 등록자 검색-->
+                        <select th:field="*{searchBy}"
+                                class="form-select form-select-lg mb-3" aria-label="Large select example">
+                            <option value="loginId">아이디</option>
+                            <option value="email">이메일</option>
+                            <option value="name">이름</option>
+                        </select>
+                        <!--검색어 입력-->
+                        <div class="form-floating mb-3">
+                            <input th:field="*{searchQuery}"  type="text" class="form-control" id="floatingInput" placeholder="검색어를 입력해주세요">
+                            <label for="floatingInput">검색어를 입력해주세요</label>
+                        </div>
+                        <!--검색 버튼-->
+                        <button type="submit" id="searchBtn" class="mb-3 btn btn-light search">검색</button>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div><!-- End Top Selling -->
+
+                </div>
+
+            </div>
+        </div><!-- End Top Selling -->
+
+
+
+    </form>
+
+
+
+</div>
+
+</body>
+</html>

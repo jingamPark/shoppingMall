@@ -55,10 +55,16 @@
                         console.log(response)
                         alert(productId + "번 상품의 주문이 완료되었습니다.")
                     },
-                    error: function (xhr,error) {
-                        console.log("에러임 ", xhr.responseText)
-                        alert(xhr.responseText)
-                    }
+                    error: function (jqXHR, status, error) {
+                        console.log('Error:', error);
+                        if (jqXHR.status == 401 || jqXHR.status == 500) {
+                            alert("로그인 후 이용해 주세요");
+                            location.href = '/users/login';
+                        } else {
+                            alert(jqXHR.responseText);
+                        }
+
+                    },
 
 
                 })
@@ -68,38 +74,35 @@
 
 
             function addCart() {
-
-                var count = $("#count").val()
-                var productId = [[${productId}]]
-                console.log(count)
-                console.log(productId)
+                var count = $("#count").val();
+                var productId = [[${productId}]]; // 템플릿 엔진에 맞게 변수 설정
+                console.log(count);
+                console.log(productId);
                 var url = "/cart";
                 var param = {
-                    count : count,
-                    productId : productId
-                }
-
+                    count: count,
+                    productId: productId
+                };
 
                 $.ajax({
                     url: url,
-                    type : "POST",
-                    contentType : "application/json; charset =utf-8",
-                    data : JSON.stringify(param),
-                    dataType : "json",
-                    success: function (response) {
-                        console.log(response)
-                        alert(productId + "번 상품을 장바구니에 담았습니다.")
+                    type: "post",
+                    contentType: "application/json; charset=utf-8", // 공백 제거
+                    data: JSON.stringify(param),
+                    success: function(result, status) {
+                        console.log(result);
+                        alert(productId + "번 상품을 장바구니에 담았습니다.");
                     },
-                    error: function (xhr,error) {
-                        console.log("에러임 ", xhr.responseText)
-                        alert(xhr.responseText)
+                    error: function(jqXHR, status, error) {
+                        console.log('Error:', error);
+                        if (jqXHR.status == 401 || jqXHR.status == 500) {
+                            alert("로그인 후 이용해 주세요");
+                            location.href = '/users/login';
+                        } else {
+                            alert(jqXHR.responseText);
+                        }
                     }
-
-
-                })
-
-
-
+                });
             }
 
 

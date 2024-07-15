@@ -92,9 +92,10 @@ public class CartController {
             return new ResponseEntity<String>("수정권한이 없습니다.", HttpStatus.FORBIDDEN);
         }
 
-        cartService.deleteCartProduct(cartProductId);
+       String cartProdName =  cartService.deleteCartProduct(cartProductId);
 
-        return new ResponseEntity<Long>(cartProductId, HttpStatus.OK);
+        //return new ResponseEntity<Long>(cartProductId, HttpStatus.OK);
+        return new ResponseEntity<String>(cartProdName, HttpStatus.OK);
     }
 
 

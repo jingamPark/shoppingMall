@@ -5,12 +5,15 @@ import com.example.toyproject_shoppingmall.constant.Role;
 import com.example.toyproject_shoppingmall.dto.PassChangeDTO;
 import com.example.toyproject_shoppingmall.dto.UserFormDTO;
 import com.example.toyproject_shoppingmall.dto.UserPasswordDTO;
+import com.example.toyproject_shoppingmall.dto.UserSearchDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
 
 import com.example.toyproject_shoppingmall.repository.ShopUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,6 +34,13 @@ public class ShopUserService implements UserDetailsService {
     private final ShopUserRepository shopUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+
+    //Admin 회원 목록 불러오기
+    @Transactional(readOnly = true)
+    public Page<ShopUser> getAdminUserListPage(UserSearchDTO userSearchDTO, Pageable pageable) {
+        return shopUserRepository.getAdminShopUserPage(userSearchDTO,pageable);
+    }
+
 
     //비밀번호 변경
     public boolean changePassword(PassChangeDTO passChangeDTO,String loginId) {
