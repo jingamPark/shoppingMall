@@ -9,6 +9,7 @@ import com.example.toyproject_shoppingmall.dto.UserSearchDTO;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
 
 import com.example.toyproject_shoppingmall.repository.ShopUserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -34,6 +35,49 @@ public class ShopUserService implements UserDetailsService {
     private final ShopUserRepository shopUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
+
+
+
+    //관리자의 유저정보 변경
+    public ShopUser adminUserModify(UserFormDTO userFormDTO,Long shopUserId) {
+        //로그인 확인 로그인한 유저아이디와 데이터베이스의id 가져와서 확인
+
+        ShopUser selectUser = shopUserRepository.findById(shopUserId).orElseThrow(EntityNotFoundException::new);
+        if (selectUser == null) {
+            log.info("없는 유저입니다.");
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + shopUserId);
+        }
+
+        String pass = passwordEncoder.encode(userFormDTO.getPassword());
+
+        selectUser.setName(userFormDTO.getName());
+        selectUser.setId(userFormDTO.getId());
+        selectUser.setPassword(pass);
+        selectUser.setEmail(userFormDTO.getEmail());
+        selectUser.setAddress(userFormDTO.getAddress());
+        selectUser.setTel(userFormDTO.getTel());
+
+        return shopUserRepository.save(selectUser);
+    }
+
+    // 회원 정보 불러오기
+    @Transactional(readOnly = true)
+    public UserFormDTO adminUserManagement(long shopUserId) {
+
+
+        ShopUser findUser = shopUserRepository.findById(shopUserId).orElseThrow(EntityNotFoundException::new);
+
+        if (findUser == null) {
+            log.info("다른 유저입니다.");
+            throw new UsernameNotFoundException("사용자를 찾을 수 없습니다." + findUser.getLoginId());
+        }
+
+        UserFormDTO userFormDTO = modelMapper.map(findUser, UserFormDTO.class);
+
+        return userFormDTO;
+
+    }
+
 
     //Admin 회원 목록 불러오기
     @Transactional(readOnly = true)

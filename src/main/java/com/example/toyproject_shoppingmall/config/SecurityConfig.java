@@ -41,6 +41,7 @@ public class SecurityConfig  {
                                 .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()
                                 .requestMatchers("/**").permitAll()
 
+
                 )
               //  .exceptionHandling( a -> a.accessDeniedHandler(new CustomAccessDeniedHandler()))
 
@@ -76,6 +77,7 @@ public class SecurityConfig  {
                 // 로그인이 되지 않은 사용자 가 로그인을 요하는 페이지 접속시 (rest) 핸들링
                 .exceptionHandling(
                         a -> a.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+
                 )
 
         ;

@@ -2,12 +2,15 @@ package com.example.toyproject_shoppingmall.dto;
 
 
 
+import com.example.toyproject_shoppingmall.entity.Product;
+import com.example.toyproject_shoppingmall.entity.ShopUser;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.modelmapper.ModelMapper;
 
 
 @Getter
@@ -15,6 +18,7 @@ import lombok.Setter;
 public class UserFormDTO {
 
     private Long id;
+    private static ModelMapper modelMapper =new ModelMapper();
 
     @NotBlank(message = "아이디는 필수 입력입니다.")
     @Size(min = 3, max = 10, message = "아이디는 3글자 이상 10글자 이하 입니다.")
@@ -45,6 +49,9 @@ public class UserFormDTO {
     @Size(min = 2, max = 8, message = "이름은 2글자 이상 8글자 이하 입니다.")
     private String address;    //주소
 
+    public static UserFormDTO of(ShopUser shopUser) {
+        return modelMapper.map(shopUser, UserFormDTO.class);
+    }
 
 
 

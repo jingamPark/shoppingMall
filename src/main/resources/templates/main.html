@@ -29,7 +29,7 @@
 <body>
     <div layout:fragment="content">
         <div class="row row-cols-1  g-4">
-            <main id="main" class="main">
+
 
             <div class="pagetitle">
                 <h1>쇼핑몰 </h1>
@@ -60,17 +60,18 @@
 
                                             </div>
                                         </div>
-                                        <div class="col" ><!--제품 이미지 및 정보 시작 -->
+                                        <div class="col " ><!--제품 이미지 및 정보 시작 -->
                                             <div class="row row-cols-1 row-cols-md-3  g-4">
                                             <th:block th:each="product, status : ${products.getContent()}">
-                                                <div class="col-md-4 col-6" >
-                                                    <div class="card col-8">
-                                                        <a th:href="'/products/view/' + ${product.id}" class="text-dark">
-                                                            <img th:src="${product.imgUrl}" class="card-img-top"
-                                                            th:alt="${product.prodName}" height="400">
+                                                <div class="col "  >
+                                                    <div class="card  ">
+                                                        <a th:href="'/products/view/' + ${product.id}" class="text-dark ">
+
+                                                            <img th:src="${product.imgUrl}"  class=" ratio ratio-1x1 " style="width: 100%;height: 600px;object-fit: cover;"
+                                                            th:alt="${product.prodName}" >
                                                             <div class="card-body">
-                                                                <h5 class="card-title">[[${product.prodName}]]</h5>
-                                                                <p class="card-text">[[${product.prodDetail}]]</p>
+                                                                <h5 class="card-title text-truncate">[[${product.prodName}]]</h5>
+                                                                <p class="card-text text-truncate">[[${product.prodDetail}]]</p>
                                                                 <p class="card-text">카테고리 : [[${product.category}]]</p>
                                                                 <h3 class="card-title text-danger">
                                                                     [[${product.price}]]원
@@ -121,7 +122,7 @@
                     </div>
                 </section>
 
-            </main><!-- End #main -->
+
 
         </div>
     </div><!--content-->

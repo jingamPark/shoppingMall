@@ -50,11 +50,18 @@ public class CartController {
 
             return new ResponseEntity<String>(sb.toString(), HttpStatus.BAD_REQUEST);
         }
+
+        if(principal == null){
+            return new ResponseEntity<String>("로그인로그인" , HttpStatus.UNAUTHORIZED);
+        }
+
+
         String loginId = principal.getName();
         Long cartProductId;
 
         try {
             cartProductId = cartService.addCart(cartProductDTO, loginId);
+
         } catch (Exception e) {
             return new ResponseEntity<String>(e.getMessage(),HttpStatus.BAD_REQUEST);
 

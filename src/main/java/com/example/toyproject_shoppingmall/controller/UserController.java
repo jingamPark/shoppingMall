@@ -165,6 +165,7 @@ public class UserController {
 
         userFormDTO =  shopUserService.profile(principal.getName());
 
+
         model.addAttribute("userFormDTO", userFormDTO);
         model.addAttribute("passChangeDTO",passChangeDTO);
 

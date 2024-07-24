@@ -1,5 +1,6 @@
 package com.example.toyproject_shoppingmall.repository;
 
+import com.example.toyproject_shoppingmall.constant.Role;
 import com.example.toyproject_shoppingmall.entity.ShopUser;
 import com.example.toyproject_shoppingmall.repository.search.ShopUserRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,7 @@ public interface ShopUserRepository extends JpaRepository<ShopUser,Long>, Queryd
 
 
     ShopUser findByLoginIdAndEmail(String loginId, String email);
-
+    ShopUser findByRole(Role role);
 
 
 }

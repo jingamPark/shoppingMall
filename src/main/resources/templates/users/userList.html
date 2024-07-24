@@ -59,14 +59,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="user, satatus: ${users.getContent()}">
-                            <th th:text="${user.id}">
+                        <tr th:each="shopUser, satatus: ${users.getContent()}">
+                            <th th:text="${shopUser.id}">
                             <th>
-                                <a th:href="'/admin/users/'+${user.id}" th:text="${user.loginId}"></a>
+                                <a th:href="'/admin/users/'+${shopUser.id}" th:text="${shopUser.loginId}"></a>
                             </th>
-                            <th th:text="${user.name}">
-                            <th th:text="${user.email}">
-                            <th th:text="${user.regTime}">
+                            <th th:text="${shopUser.name}">
+                            <th th:text="${shopUser.email}">
+                            <th th:text="${shopUser.regTime}">
                         </tr>
 
                         </tbody>
